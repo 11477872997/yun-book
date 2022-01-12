@@ -3,7 +3,12 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import axios from 'axios';
-
+// navivueUi 
+import navivueUi from "../src/assets/js/navivueUi"
+// 通用字体
+import 'vfonts/Lato.css'
+// 等宽字体
+import 'vfonts/FiraCode.css'
 //设置axios为form-data
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 axios.defaults.headers.get['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -30,3 +35,4 @@ const app = createApp(App);
 app.use(store);
 app.use(router);
 app.mount('#app');
+app.use(navivueUi);
