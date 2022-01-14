@@ -1,20 +1,29 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
 
 const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+      {     //根目录登录页面
+        path: '/',
+        redirect: '/login',
+        meta: {
+            keepAlive: true,
+        }
+    },
+    {  // 登陆
+        path: '/login',
+        name: "Login",
+        meta: {
+            title: '登陆'
+        },
+        component: () => import('../views/login')
+    },
+    {  // 注册
+        path: '/register',
+        name: "Register",
+        meta: {
+            title: '注册'
+        },
+        component: () => import('../views/register')
+    },
 ]
 
 const router = createRouter({
@@ -23,3 +32,9 @@ const router = createRouter({
 })
 
 export default router
+
+//  路由守卫 
+router.beforeEach((to,from,next)=>{
+  document.title = to.meta.title
+     next();
+})

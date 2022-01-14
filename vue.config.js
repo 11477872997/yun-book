@@ -2,12 +2,6 @@ module.exports = {
   publicPath: process.env.NODE_ENV === 'production' ? './' : '/',  //解决打包直接打开页面空白
   lintOnSave: false,
   productionSourceMap: false,
-  chainWebpack: (config) => {
-    config.plugin('html').tap((args) => {
-      args[0].title = '小几把海';
-      return args;
-    });
-  },
   devServer: {
     //以上的ip和端口是我们本机的;下面为需要跨域的
     proxy: {//配置跨域
@@ -20,6 +14,7 @@ module.exports = {
             }
         }
 
-    }
+    },
+    hot: true,
 },
 }
