@@ -3,13 +3,13 @@
 <div class='SonLogin'>
     <!-- 左边登录 -->
     <div class="FromContainer SaonloginLeft">
-
+      
     </div>
     <!-- 右边注册 -->
     <div class="FromContainer SaonloginRight">
       <div class="overlay">
           <div class="overlayFrom">
-            <h1>没有帐号？</h1>
+            
           </div>
       </div>
     </div>
