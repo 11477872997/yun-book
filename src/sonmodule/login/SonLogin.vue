@@ -61,7 +61,7 @@ export default defineComponent({
 
     const onFinish = values => {
       console.log('Success:', values);
-     
+     this.$message.info('This is a normal message');
     };
 
     const onFinishFailed = errorInfo => {
