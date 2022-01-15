@@ -31,6 +31,7 @@ function draw(name) {
         canvas.style.position = 'absolute'
         canvas.style.inset = '0px'
         canvas.style.cursor = 'pointer'
+        canvas.style.zIndex = '-1'
     }
 
     function randomIntFromRange(min, max) {
@@ -41,7 +42,7 @@ function draw(name) {
         return colours[randomIntFromRange(0, colours.length)];
     }
 
-    function Particle({ x, y, velocity, radius, colour } = {}) {
+    function Particle({ x, y, velocity, radius } = {}) {
         this.x = x;
         this.y = y;
         this.velocity = velocity || 0.05;
