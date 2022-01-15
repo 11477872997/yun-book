@@ -5,7 +5,7 @@ const components = [
     Button,Row,Col,checkbox, 
 ];
 const use = [
-    Input,Form,message
+    Input,Form
 ];
 
 // 定义 install 方法，接收 Vue 作为参数。如果使用 use 注册插件，则所有的组件都将被注册
@@ -17,7 +17,7 @@ const install = function (Vue) {
   use.forEach(component => {
     Vue.use(component)
   })
-  // Vue.prototype.$message = message;
+  Vue.config.globalProperties.$message = message;
 };
 
 //判断是否是直接引入文件,如果是，就不用调用 Vue.use()

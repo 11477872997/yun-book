@@ -50,9 +50,10 @@
 
 <script>
 
-import { defineComponent,reactive } from "vue";
+import { defineComponent,reactive,getCurrentInstance } from "vue";
 export default defineComponent({
   setup() {
+let { proxy } = getCurrentInstance();
     const formState = reactive({
         username: '',
         password: '',
@@ -60,8 +61,9 @@ export default defineComponent({
     });
 
     const onFinish = values => {
-      console.log('Success:', values);
-     this.$message.info('This is a normal message');
+  
+      console.log('Success:', values);      
+       proxy.$message.info('This is a normal message');
     };
 
     const onFinishFailed = errorInfo => {
