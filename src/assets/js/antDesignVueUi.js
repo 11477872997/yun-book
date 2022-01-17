@@ -2,7 +2,7 @@ import { Button,Row,Col,Input,checkbox,Form,message} from 'ant-design-vue';
 
 //  存储组件列表 
 const components = [
-    Button,Row,Col,checkbox, 
+    Button,Row,Col,checkbox
 ];
 const use = [
     Input,Form

@@ -1,74 +1,83 @@
 <!-- 登陆界面 -->
 <template>
-<div class='SonLogin'>
+  <div class="SonLogin">
     <!-- 左边登录 -->
     <div class="FromContainer SaonloginLeft">
-      <a-form
-            :model="formState"
-            name="basic"
-            :label-col="{ span: 8 }"
-            :wrapper-col="{ span: 16 }"
-            autocomplete="off"
-            @finish="onFinish"
-            @finishFailed="onFinishFailed"
+      <div class="SaonloginLeftbox">
+        <h1>登录</h1>
+        <a-form
+          :model="formState"
+          name="basic"
+          :label-col="{ span: 6 }"
+          :wrapper-col="{ span: 18 }"
+          autocomplete="off"
+          @finish="onFinish"
+          @finishFailed="onFinishFailed"
         >
-            <a-form-item
-            label="Username"
+          <a-form-item
+            label="用户名"
             name="username"
-            :rules="[{ required: true, message: 'Please input your username!' }]"
-            >
+            labelAlign="left"
+            :rules="[{ required: true, message: '请输入用户名!' }]"
+          >
             <a-input v-model:value="formState.username" />
-            </a-form-item> 
+          </a-form-item>
 
-            <a-form-item
-            label="Password"
+          <a-form-item
+            label="密码"
             name="password"
-            :rules="[{ required: true, message: 'Please input your password!' }]"
-            >
-            <a-input-password v-model:value="formState.password" />
-            </a-form-item> 
-
-            <a-form-item name="remember" :wrapper-col="{ offset: 8, span: 16 }">
-            <a-checkbox v-model:checked="formState.remember">Remember me</a-checkbox>
+            labelAlign="left"
+            :rules="[{ required: true, message: '请输入密码!' }]"
+          >
+            <a-input-password autocomplete v-model:value="formState.password" />
+          </a-form-item>
+            <a-form-item :wrapper-col="{ offset: 6, span: 11 }">
+              <a-button
+                type="primary"
+                danger
+                shape="round"
+                size="large"
+                html-type="submit"
+                block
+              >
+                登录
+              </a-button>
             </a-form-item>
-
-            <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
-            <a-button type="primary" html-type="submit">Submit</a-button>
-            </a-form-item> 
         </a-form>
+      </div>
     </div>
     <!-- 右边注册 -->
     <div class="FromContainer SaonloginRight">
+      <div class="SaonloginRightBox">
         <h1>没有账号？</h1>
-        <p>点击按钮注册加入我们</p>
-        <a-button type="primary" danger > 
+        <p>立即注册加入我们，和我们一起开始旅程吧</p>
+        <div class="SaonBtn">
+          <a-button ghost size="large" shape="round" block>
             <router-link to="/index/register"> 注册</router-link>
-        </a-button>
+          </a-button>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 </template>
 
 <script>
-
-import { defineComponent,reactive,getCurrentInstance } from "vue";
+import { defineComponent, reactive, getCurrentInstance } from "vue";
 export default defineComponent({
   setup() {
-let { proxy } = getCurrentInstance();
+    let { proxy } = getCurrentInstance();
     const formState = reactive({
-        username: '',
-        password: '',
-        remember: true,
+      username: "",
+      password: "",
     });
 
-    const onFinish = values => {
-  
-      console.log('Success:', values);      
-       proxy.$message.info('This is a normal message');
+    const onFinish = (values) => {
+      console.log("Success:", values);
+      proxy.$message.info("This is a normal message");
     };
 
-    const onFinishFailed = errorInfo => {
-      console.log('Failed:', errorInfo);
-     
+    const onFinishFailed = (errorInfo) => {
+      console.log("Failed:", errorInfo);
     };
 
     return {
@@ -77,35 +86,71 @@ let { proxy } = getCurrentInstance();
       onFinishFailed,
     };
   },
-})
-
+});
 </script>
-<style  scoped>
-.SonLogin{
-    width: 768px;
-    height: 480px;
+<style scoped>
+.SonLogin {
+  width: 768px;
+  height: 480px;
 }
-.SaonloginLeft{
-    float: left;
+.SaonloginLeft {
+  float: left;
 }
-.SaonloginRight{
-    float: right;
-    background: linear-gradient(to right, #366c78, #050002) no-repeat 0 0 / cover;
-    opacity: 0.7;
-    text-align: center;
+.SaonloginLeftbox {
+  position: relative;
+  top: 10%;
 }
-.FromContainer{
-    position: relative;
-    width: 50%;
-    height: 100%;
-    padding: 40px 25px 15px 25px;
+.SaonloginRight {
+  float: right;
+  background: linear-gradient(to right, #366c78, #050002) no-repeat 0 0 / cover;
+  opacity: 0.7;
+  text-align: center;
 }
-.SaonloginRight h1{
-    color: #fff;
-    font-size:40px;
+.SaonloginRightBox {
+  position: relative;
+  top: 20%;
 }
-.SaonloginRight p{
-    color: #fff;
-    font-size:18px;
+.FromContainer {
+  position: relative;
+  width: 50%;
+  height: 100%;
+  padding: 40px 25px 15px 25px;
+}
+.SaonloginLeftbox h1,.SaonloginRight h1 {
+  color: #fff;
+  font-size: 40px;
+  text-align: center;
+}
+.SaonloginLeftbox h1 {
+  animation: glow-animation 2s infinite linear;
+  text-shadow: 5px 12px 29px 0px #616591;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-image: linear-gradient(
+    90deg,
+    #0e0d0d 0%,
+    #107c9c 100%,
+    rgb(139, 13, 13)
+  );
+}
+@keyframes glow-animation {
+  0% {
+    filter: hue-rotate(-360deg);
+  }
+
+  100% {
+    filter: hue-rotate(360deg);
+  }
+}
+.SaonloginRight p {
+  color: #fff;
+  font-size: 16px;
+}
+.SaonBtn {
+  width: 150px;
+  margin: 0 auto;
+}
+/deep/ .ant-form-item-label > label {
+  color: #fff;
 }
 </style>
