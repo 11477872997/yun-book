@@ -107,6 +107,11 @@ export default defineComponent({
         "userName":formState.username,
         "password":formState.password
       }
+      let newdata = {
+        "userName":formState.username,
+        "password":formState.password,
+        "zt":'0'
+      }
      api_login(data).then((res)=>{
          if(res.data.code == 1){
              proxy.$message.success(res.data.msg);
@@ -125,6 +130,16 @@ export default defineComponent({
                         onOk() {
                         console.log('OK');
                         //   router.push('/index/login');
+                          api_login(newdata).then((res)=>{
+                            if(res.data.code == 1){
+                                proxy.$message.success(res.data.msg);
+                                //   router.push('/index/login');
+                                return;
+                            }
+                            }).catch((err)=>{
+                                proxy.$message.error('登陆失败');
+                                
+                            })
                         },
                         onCancel() {
                          console.log('Cancel');
@@ -138,7 +153,6 @@ export default defineComponent({
 
        
       }).catch((err)=>{
-          console.log(err)
          proxy.$message.error('登陆失败');
          
       })
