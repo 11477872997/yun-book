@@ -23,33 +23,33 @@
           :label-col="{ span: 6 }"
           :wrapper-col="{ span: 18 }"
           autocomplete="off"
-          @finish="onFinish"
-          @finishFailed="onFinishFailed"
+           :rules="rules"
+          @finish="handleFinish"
+          @validate="handleValidate"
         >
           <a-form-item
             label="用户名"
             name="username"
             labelAlign="left"
-            :rules="[{ required: true, message: '请输入用户名!' }]"
           >
-            <a-input v-model:value="formState.username" />
+            <a-input v-model:value="formState.username"  />
           </a-form-item>
 
           <a-form-item
             label="密码"
             name="password"
             labelAlign="left"
-            :rules="[{ required: true, message: '请输入密码!' }]"
+            
           >
             <a-input-password autocomplete v-model:value="formState.password" />
           </a-form-item>
           <a-form-item
             label="确认密码"
-            name="password"
+            name="passwordTwo"
             labelAlign="left"
-            :rules="[{ required: true, message: '请输入密码!' }]"
+           
           >
-            <a-input-password autocomplete v-model:value="formState.password" />
+            <a-input-password autocomplete v-model:value="formState.passwordTwo" />
           </a-form-item>
           <a-form-item :wrapper-col="{ offset: 6, span: 11 }">
             <a-button
@@ -70,33 +70,93 @@
 </template>
 
 <script>
-import { defineComponent, reactive, getCurrentInstance } from "vue";
+import {api_reginters} from '../../assets/api/index'
+import { defineComponent, reactive, getCurrentInstance,ref } from "vue";
 export default defineComponent({
   setup() {
     let { proxy } = getCurrentInstance();
+    // 接口参数
     const formState = reactive({
       username: "",
       password: "",
+      passwordTwo:""
     });
-
-    const onFinish = (values) => {
-      console.log("Success:", values);
-      proxy.$message.info("This is a normal message");
+    // 用户名表单验证
+       let validateUsername = async (_rule, value) => {
+         if (value === '') {
+          return Promise.reject('请输入用户名!');
+        } else {
+          return Promise.resolve();
+        }
     };
+ // 密码表单验证
+       let validatePass = async (_rule, value) => {
+         //密码强度正则，最少6位，包括至少1个大写字母，1个小写字母，1个数字，1个特殊字符
+        let pPattern = /^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*? ]).*$/;
+         if (value === '') {
+          return Promise.reject('请输入密码!');
+        } else if(pPattern.test(value) == false){
+            return Promise.reject('最少6位，包括至少1个大写字母，1个小写字母，1个数字，1个特殊字符!');
+        } else {
+          return Promise.resolve();
+        }
+    };
+     //确认密码表单验证
+       let validatePassTwo = async (_rule, value) => {
+         if (value === '') {
+          return Promise.reject('请输入密码!');
+        } else if(value !== formState.password) {
+          return Promise.reject('两次密码一致!');
+        } else  {
+          return Promise.resolve();
+        }
+    };
+    // 表单验证
+   const rules = {
+      username: [{
+        required: true,
+        validator: validateUsername,
+        trigger: 'blur',
+      }],
+      password: [{
+        required: true,
+        validator: validatePass,
+        trigger: 'blur',
+      }],
+      passwordTwo: [{
+        required: true,
+        validator: validatePassTwo,
+        trigger: 'blur',
+      }],
+    };
+//  验证成功触发
+    const handleFinish = values => {
+      let data = {
+        "userName":formState.username,
+        "password":formState.password
 
-    const onFinishFailed = (errorInfo) => {
-      console.log("Failed:", errorInfo);
+      }
+     api_reginters(data).then((res)=>{
+          proxy.$message.success(res.data.msg);
+      }).catch((err)=>{
+         proxy.$message.error('注册失败');
+      })
+    };
+// 事件触发
+   const handleValidate = (...args) => {
+      // console.log(args);
     };
 
     return {
       formState,
-      onFinish,
-      onFinishFailed,
+      rules,
+      handleValidate,
+      handleFinish
     };
   },
 });
 </script>
-<style  scoped>
+<style  scoped  lang="scss">
 .SonRegister {
   width: 768px;
   height: 480px;
@@ -120,13 +180,13 @@ export default defineComponent({
 .SonRegisterRightbox h1 {
   animation: glow-animation 2s infinite linear;
   text-shadow: 5px 12px 29px 0px #616591;
-  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   background-image: linear-gradient(
     90deg,
-    #0e0d0d 0%,
-    #107c9c 100%,
-    rgb(139, 13, 13)
+     #0e0d0d 0%,
+    #ce5016 100%,
+    rgb(223, 208, 160)
   );
 }
 @keyframes glow-animation {
@@ -155,7 +215,7 @@ export default defineComponent({
   width: 150px;
   margin: 0 auto;
 }
-/deep/ .ant-form-item-label > label {
+::v-deep .ant-form-item-label > label {
   color: #fff;
 }
 </style>

@@ -62,6 +62,7 @@
 </template>
 
 <script>
+
 import { defineComponent, reactive, getCurrentInstance } from "vue";
 export default defineComponent({
   setup() {
@@ -88,7 +89,7 @@ export default defineComponent({
   },
 });
 </script>
-<style scoped>
+<style scoped lang="scss">
 .SonLogin {
   width: 768px;
   height: 480px;
@@ -124,13 +125,13 @@ export default defineComponent({
 .SaonloginLeftbox h1 {
   animation: glow-animation 2s infinite linear;
   text-shadow: 5px 12px 29px 0px #616591;
-  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   background-image: linear-gradient(
     90deg,
-    #0e0d0d 0%,
-    #107c9c 100%,
-    rgb(139, 13, 13)
+     #0e0d0d 0%,
+    #ce5016 100%,
+    rgb(223, 208, 160)
   );
 }
 @keyframes glow-animation {
@@ -150,7 +151,7 @@ export default defineComponent({
   width: 150px;
   margin: 0 auto;
 }
-/deep/ .ant-form-item-label > label {
+::v-deep  .ant-form-item-label > label {
   color: #fff;
 }
 </style>
