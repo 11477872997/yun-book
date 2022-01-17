@@ -61,8 +61,9 @@
 </template>
 
 <script>
+import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
 import {api_login} from '../../assets/api/index'
-import { defineComponent, reactive, getCurrentInstance } from "vue";
+import { defineComponent, reactive, getCurrentInstance,createVNode } from "vue";
 export default defineComponent({
   setup() {
     let { proxy } = getCurrentInstance();
@@ -114,11 +115,22 @@ export default defineComponent({
          }
          if(res.data.code == 0){
              if(res.data.zt == 1){
-                 alert('用户已经登录再别的地方登陆，请退出别的登录！')
-                 return ;
-             }
-             if(res.data.zt == 0){
-                 alert('登陆已过期！')
+                  proxy.$Modal.confirm({
+                        title: '信息提示',
+                        icon: createVNode(ExclamationCircleOutlined),
+                        content: '用户已经登录再别的地方登陆,是否重新登录',
+                        okText: '是的',
+                        okType: 'danger',
+                        cancelText: '取消',
+                        onOk() {
+                        console.log('OK');
+                        //   router.push('/index/login');
+                        },
+                        onCancel() {
+                         console.log('Cancel');
+                        },
+
+                    });
                  return ;
              }
              proxy.$message.success(res.data.msg);
@@ -126,6 +138,7 @@ export default defineComponent({
 
        
       }).catch((err)=>{
+          console.log(err)
          proxy.$message.error('登陆失败');
          
       })

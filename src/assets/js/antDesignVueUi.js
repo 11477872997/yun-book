@@ -1,4 +1,4 @@
-import { Button,Row,Col,Input,checkbox,Form,message} from 'ant-design-vue';
+import { Button,Row,Col,Input,checkbox,Form,message,Modal} from 'ant-design-vue';
 
 //  存储组件列表 
 const components = [
@@ -18,6 +18,7 @@ const install = function (Vue) {
     Vue.use(component)
   })
   Vue.config.globalProperties.$message = message;
+  Vue.config.globalProperties.$Modal = Modal;
 };
 
 //判断是否是直接引入文件,如果是，就不用调用 Vue.use()
