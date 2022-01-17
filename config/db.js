@@ -19,7 +19,7 @@ const  dbConfig = {
 		// queueLimit: 0//最大连接等待数(0为不限制)
     },
     jwtSecret:'123!@#qwe' ,   //token秘钥
-    expireTime: '10s' ,  // 24小时过期  60 * 60 * 24 秒算   token时间
+    expireTime: 60 * 60 * 2 ,  // 24小时过期  60 * 60 * 24 秒算   token时间
 }
 
 module.exports = dbConfig;

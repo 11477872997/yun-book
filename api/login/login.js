@@ -44,27 +44,43 @@ const login = async (ctx, next) => {
                             }
                     }else{
                        if(verson('Bearer '+ date[0].equipment) == false){
+                        await updateUser(date[0].userId,token);  //更新登陆状态
                             ctx.body = {
-                                code: 0,
-                                zt:0,
-                                msg: 'token已过期'
+                                code: 1,
+                                row:[{
+                                        "token":token,
+                                        "userName": req.userName,
+                                }],
+                                msg: '登陆成功',
                             }
-                         await updateUser(date[0].userId, '');  //更新登陆状态
                        }else{
+                           if(req.zt == 0){
+                            await updateUser(date[0].userId,token);  //更新登陆状态
+                                ctx.body = {
+                                    code: 1,
+                                    row:[{
+                                            "token":token,
+                                            "userName": req.userName,
+                                    }],
+                                    msg: '登陆成功',
+                                }
+                           }else{
                             if(date[0].equipment != token){
-                                    ctx.body = {
-                                        code: 0,
-                                        zt:1,
-                                        msg: '登录的token与访问token不一致'
-                                    }
+                                ctx.body = {
+                                    code: 0,
+                                    zt:1,
+                                    msg: '登录的token与访问token不一致'
+                                }
+                            }
                            }
+                          
                        }
                              
                     }
                 } else {
                     ctx.body = {
                         code: 0,
-                        msg: '用户密码错误'
+                        msg: '密码错误'
                     }
                 }
             }
