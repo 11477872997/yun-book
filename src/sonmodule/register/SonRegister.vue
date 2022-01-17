@@ -71,6 +71,7 @@
 
 <script>
 import {api_reginters} from '../../assets/api/index'
+import router from '../../router/index'
 import { defineComponent, reactive, getCurrentInstance,ref } from "vue";
 export default defineComponent({
   setup() {
@@ -138,8 +139,17 @@ export default defineComponent({
       }
      api_reginters(data).then((res)=>{
           proxy.$message.success(res.data.msg);
+          if(res.data.code == 0){
+            return false;
+          }
+          router.push('/index/login');
+          // 清空所有值
+          for(let key in formState){
+            formState[key]  = ''
+          }
       }).catch((err)=>{
          proxy.$message.error('注册失败');
+         
       })
     };
 // 事件触发

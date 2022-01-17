@@ -11,14 +11,14 @@
           :label-col="{ span: 6 }"
           :wrapper-col="{ span: 18 }"
           autocomplete="off"
-          @finish="onFinish"
-          @finishFailed="onFinishFailed"
+          :rules="rules"
+          @finish="handleFinish"
+          @validate="handleValidate"
         >
           <a-form-item
             label="用户名"
             name="username"
             labelAlign="left"
-            :rules="[{ required: true, message: '请输入用户名!' }]"
           >
             <a-input v-model:value="formState.username" />
           </a-form-item>
@@ -27,7 +27,6 @@
             label="密码"
             name="password"
             labelAlign="left"
-            :rules="[{ required: true, message: '请输入密码!' }]"
           >
             <a-input-password autocomplete v-model:value="formState.password" />
           </a-form-item>
@@ -62,7 +61,7 @@
 </template>
 
 <script>
-
+import {api_login} from '../../assets/api/index'
 import { defineComponent, reactive, getCurrentInstance } from "vue";
 export default defineComponent({
   setup() {
@@ -71,20 +70,77 @@ export default defineComponent({
       username: "",
       password: "",
     });
-
-    const onFinish = (values) => {
-      console.log("Success:", values);
-      proxy.$message.info("This is a normal message");
+    // 用户名表单验证
+       let validateUsername = async (_rule, value) => {
+         if (value === '') {
+          return Promise.reject('请输入用户名!');
+        } else {
+          return Promise.resolve();
+        }
+    };
+ // 密码表单验证
+       let validatePass = async (_rule, value) => {
+         if (value === '') {
+          return Promise.reject('请输入密码!');
+        }else {
+          return Promise.resolve();
+        }
     };
 
-    const onFinishFailed = (errorInfo) => {
-      console.log("Failed:", errorInfo);
+    // 表单验证
+   const rules = {
+      username: [{
+        required: true,
+        validator: validateUsername,
+        trigger: 'blur',
+      }],
+      password: [{
+        required: true,
+        validator: validatePass,
+        trigger: 'blur',
+      }]
     };
+//  验证成功触发
+    const handleFinish = values => {
+      let data = {
+        "userName":formState.username,
+        "password":formState.password
+      }
+     api_login(data).then((res)=>{
+         if(res.data.code == 1){
+             proxy.$message.success(res.data.msg);
+              //   router.push('/index/login');
+              return;
+         }
+         if(res.data.code == 0){
+             if(res.data.zt == 1){
+                 alert('用户已经登录再别的地方登陆，请退出别的登录！')
+                 return ;
+             }
+             if(res.data.zt == 0){
+                 alert('登陆已过期！')
+                 return ;
+             }
+             proxy.$message.success(res.data.msg);
+         }
+
+       
+      }).catch((err)=>{
+         proxy.$message.error('登陆失败');
+         
+      })
+    };
+// 事件触发
+   const handleValidate = (...args) => {
+      // console.log(args);
+    };
+
 
     return {
-      formState,
-      onFinish,
-      onFinishFailed,
+    formState,
+      rules,
+      handleValidate,
+      handleFinish
     };
   },
 });
