@@ -5,6 +5,7 @@
     <!-- 左边登录 -->
     <div class="FromContainer SaonloginLeft">
       <div class="SaonloginLeftbox">
+      
         <h1>登录</h1>
         <a-form
           :model="formState"
@@ -23,13 +24,20 @@
           >
             <a-input v-model:value="formState.username" />
           </a-form-item>
-
           <a-form-item
             label="密码"
             name="password"
             labelAlign="left"
           >
             <a-input-password autocomplete v-model:value="formState.password" />
+         
+          </a-form-item>
+          <a-form-item
+            label="验证码"
+            labelAlign="left"
+          >
+          <a-button type="primary" @click="onShow" block>开始验证</a-button>
+         
           </a-form-item>
             <a-form-item :wrapper-col="{ offset: 6, span: 11 }">
               <a-button
@@ -44,6 +52,8 @@
               </a-button>
             </a-form-item>
         </a-form>
+        
+    <Vcode :show="isShow" @success="onSuccess" @close="onClose" />
       </div>
     </div>
     <!-- 右边注册 -->
@@ -62,12 +72,29 @@
 </template>
 
 <script>
+import Vcode from "vue3-puzzle-vcode"
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
 import {api_login} from '../../assets/api/index'
-import { defineComponent, reactive, getCurrentInstance,createVNode } from "vue";
+import { defineComponent, reactive, getCurrentInstance,createVNode ,ref} from "vue";
 
 export default defineComponent({
+    components: {
+    Vcode,
+  },
   setup() {
+     const isShow = ref(false);
+      const onShow = () => {
+        isShow.value = true;
+      };
+      const onClose = () => {
+        isShow.value = false;
+      };
+      const onSuccess = () => {
+        onClose(); // 验证成功，需要手动关闭模态框
+      };
+
+
+
     let { proxy } = getCurrentInstance();
     const formState = reactive({
       username: "",
@@ -170,7 +197,11 @@ export default defineComponent({
     formState,
       rules,
       handleValidate,
-      handleFinish
+      handleFinish,
+      isShow,
+      onShow,
+      onClose,
+      onSuccess
     };
   },
 });
