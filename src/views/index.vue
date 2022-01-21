@@ -28,7 +28,8 @@ import draw from "../assets/js/logincanvas";
 export default defineComponent({
   components: {},
   setup() {
-    let login_img = ref(require("../assets/image/bg.jpg")); //string number
+    // let login_img = ref(require("../assets/image/bg.jpg")); //string number
+    let login_img = ref('http://api.mtyqx.cn/api/random.php'); //string number
     onMounted(() => {
       draw("init");
     });

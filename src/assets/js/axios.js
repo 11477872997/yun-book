@@ -6,7 +6,7 @@ const autograph = function auths (url, query) {
   }
   return { query, headers }
 }
-console.log(process.env.NODE_ENV)
+// console.log(process.env.NODE_ENV)'
 var url ;
 if (process.env.NODE_ENV == 'development') {//开发环境
     url = '/api';
@@ -23,11 +23,22 @@ baseURL:url,
   timeout: 50000
 })
 
-
+// 开启加载
+function openload(){
+  var dom=document.createElement('div');
+  dom.id='cover';
+  dom.innerHTML = '<div class="coverBox"><span class="ant-spin-dot ant-spin-dot-spin"><i class="ant-spin-dot-item"></i><i class="ant-spin-dot-item"></i><i class="ant-spin-dot-item"></i><i class="ant-spin-dot-item"></i></span><div class="ant-spin-text">Loading...</div></div>'
+  document.body.appendChild(dom);
+}
+// 关闭加载
+function closeload(){
+  var box = document.getElementById("cover");
+  box.parentNode.removeChild(box);
+}
 // request 拦截器,这些直接复制粘贴,都是死的代码,若想更丰富,懂了之后可以添加更多的精彩
 service.interceptors.request.use(function(config) {
+  openload();
   const data = autograph(config.url, config.data)
-  
   if (config.method === 'get') {
     config.params = data.query
   }
@@ -45,7 +56,7 @@ service.interceptors.request.use(function(config) {
 // response 拦截器   异常处理
 service.interceptors.response.use(
   response => {
-
+    closeload();
         return {
             code: response.status,
             message: response.statusText,
@@ -53,7 +64,7 @@ service.interceptors.response.use(
         }
   },
   error => {
-   
+    closeload();
     if (error && error.response) {
         switch (error.response.status) {
           case 400:

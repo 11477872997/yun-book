@@ -1,6 +1,7 @@
 <!-- 登陆界面 -->
 <template>
   <div class="SonLogin">
+   
     <!-- 左边登录 -->
     <div class="FromContainer SaonloginLeft">
       <div class="SaonloginLeftbox">
@@ -64,6 +65,7 @@
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
 import {api_login} from '../../assets/api/index'
 import { defineComponent, reactive, getCurrentInstance,createVNode } from "vue";
+
 export default defineComponent({
   setup() {
     let { proxy } = getCurrentInstance();
@@ -153,6 +155,7 @@ export default defineComponent({
 
        
       }).catch((err)=>{
+        console.log(err)
          proxy.$message.error('登陆失败');
          
       })

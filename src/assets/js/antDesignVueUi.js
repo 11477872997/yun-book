@@ -1,8 +1,8 @@
-import { Button,Row,Col,Input,checkbox,Form,message,Modal} from 'ant-design-vue';
+import { Button,Row,Col,Input,checkbox,Form,message,Modal,Spin} from 'ant-design-vue';
 
 //  存储组件列表 
 const components = [
-    Button,Row,Col,checkbox
+    Button,Row,Col,checkbox,Spin
 ];
 const use = [
     Input,Form
