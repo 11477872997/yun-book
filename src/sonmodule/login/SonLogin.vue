@@ -76,23 +76,28 @@ import Vcode from "vue3-puzzle-vcode"
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
 import {api_login} from '../../assets/api/index'
 import { defineComponent, reactive, getCurrentInstance,createVNode ,ref} from "vue";
-
+import router from '../../router/index'
 export default defineComponent({
     components: {
     Vcode,
   },
   setup() {
      const isShow = ref(false);
+    //  验证码
+      const isyzm = ref(false); 
       const onShow = () => {
         isShow.value = true;
       };
       const onClose = () => {
         isShow.value = false;
+        isyzm.value = false;
       };
       const onSuccess = () => {
         onClose(); // 验证成功，需要手动关闭模态框
+        isyzm.value = true;
+        handleFinish();
       };
-
+      
 
 
     let { proxy } = getCurrentInstance();
@@ -132,6 +137,10 @@ export default defineComponent({
     };
 //  验证成功触发
     const handleFinish = values => {
+      if(!isyzm.value){
+       proxy.$message.success('请验证!');
+       return false;
+      }
       let data = {
         "userName":formState.username,
         "password":formState.password
@@ -144,7 +153,7 @@ export default defineComponent({
      api_login(data).then((res)=>{
          if(res.data.code == 1){
              proxy.$message.success(res.data.msg);
-              //   router.push('/index/login');
+             router.push('/home');
               return;
          }
          if(res.data.code == 0){
@@ -158,25 +167,26 @@ export default defineComponent({
                         cancelText: '取消',
                         onOk() {
                         console.log('OK');
-                        //   router.push('/index/login');
                           api_login(newdata).then((res)=>{
                             if(res.data.code == 1){
                                 proxy.$message.success(res.data.msg);
-                                //   router.push('/index/login');
+                               router.push('/home');
                                 return;
                             }
                             }).catch((err)=>{
                                 proxy.$message.error('登陆失败');
-                                
+                                isyzm.value = false;
                             })
                         },
                         onCancel() {
+                          isyzm.value = false;
                          console.log('Cancel');
                         },
 
                     });
                  return ;
              }
+             isyzm.value = false;
              proxy.$message.success(res.data.msg);
          }
 
