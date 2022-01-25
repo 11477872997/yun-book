@@ -41,7 +41,43 @@ const routes = [
             title: '首页'
         },
         component: () => import('../views/home'),
+        children:[
+            {  // 用户管理
+                path: '/userControl',
+                name: "UserControl",
+                meta: {
+                    title: '用户管理'
+                },
+                component: () => import('../views/userControl'),
+            },
+            {  // 角色管理
+                path: '/roleControl',
+                name: "RoleControl",
+                meta: {
+                    title: '角色管理'
+                },
+                component: () => import('../views/roleControl'),
+            },
+            {  // 云空间
+                path: '/cloud',
+                name: "Cloud",
+                meta: {
+                    title: '云空间'
+                },
+                component: () => import('../views/cloud'),
+            },
+            {  // 云笔记
+                path: '/cloudNote ',
+                name: "CloudNote",
+                meta: {
+                    title: '云笔记'
+                },
+                component: () => import('../views/cloudNote'),
+            }
+        ]
     }
+
+   
 
 ]
 
