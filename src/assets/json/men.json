@@ -1,48 +1,50 @@
-[
+[{
+        "id": "0",
+        "key": "/home",
+        "icon": "icon-twitter",
+        "text": "首页",
+        "pageUrl": "/home"
+    },
     {
-    "id": "0",
-    "key": "1",
-    "icon": "user",
-    "text": "首页"
-  },
+        "id": "1",
+        "key": "sub1",
+        "icon": "icon-qunzhu",
+        "text": "系统管理",
+        "children": [{
+                "id": "0",
+                "key": "/userControl",
+                "icon": "",
+                "pageUrl": "/userControl",
+                "text": "用户管理"
+            },
+            {
+                "id": "1",
+                "key": "/roleControl",
+                "icon": "",
+                "pageUrl": "/roleControl",
+                "text": "角色管理"
+            }
+        ]
+    },
     {
-    "id": "1",                                             
-    "key": "sub1",
-    "icon": "",
-    "text": "系统管理",
-    "children":[
-        {
-            "id":"0",
-            "key":"sub1-1",
-            "icon": "",
-            "text": "用户管理"
-        },
-        {
-            "id":"1",
-            "key":"sub1-2",
-            "icon": "",
-            "text": "角色管理"
-        }
-    ]
-  },
-  {
-    "id": "2",                                             
-    "key": "sub2",
-    "icon": "",
-    "text": "云管理",
-    "children":[
-        {
-            "id":"0",
-            "key":"sub2-1",
-            "icon": "",
-            "text": "云空间"
-        },
-        {
-            "id":"1",
-            "key":"sub2-2",
-            "icon": "",
-            "text": "云笔记"
-        }
-    ]
-  }   
-] 
+        "id": "2",
+        "key": "sub2",
+        "icon": "icon-xinjian",
+        "text": "云管理",
+        "children": [{
+                "id": "0",
+                "key": "/cloud",
+                "icon": "",
+                "pageUrl": "/cloud",
+                "text": "云空间"
+            },
+            {
+                "id": "1",
+                "key": "/cloudNote",
+                "icon": "",
+                "pageUrl": "/cloudNote",
+                "text": "云笔记"
+            }
+        ]
+    }
+]

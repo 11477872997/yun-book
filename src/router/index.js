@@ -66,14 +66,15 @@ const routes = [
                 },
                 component: () => import('../views/cloud'),
             },
-            {  // 云笔记
-                path: '/cloudNote ',
+            {  // 云空间
+                path: '/cloudNote',
                 name: "CloudNote",
                 meta: {
                     title: '云笔记'
                 },
                 component: () => import('../views/cloudNote'),
             }
+        
         ]
     }
 
