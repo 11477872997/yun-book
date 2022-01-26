@@ -64,7 +64,7 @@ export default defineComponent({
         (key) => state.openKeys.indexOf(key) === -1
       );
       if (state.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
-        state.openKeys = openKeys;
+            state.openKeys = openKeys;
       } else {
         state.openKeys = latestOpenKey ? [latestOpenKey] : [];
       }
