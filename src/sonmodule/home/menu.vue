@@ -10,11 +10,12 @@
       :open-keys="openKeys"
     >
       <!-- 只有一级菜单 -->
-      <a-menu-item v-if="item.children == undefined" :key="item.key">
+      <a-menu-item v-if="item.children == undefined" :key="item.key" @click="onMyThis">
         <icon-font :type="item.icon" />
-        <span
-          ><router-link :to="item.pageUrl"> </router-link>{{ item.text }}</span
-        >
+        <span>
+          <router-link :to="item.pageUrl"> </router-link>
+          {{ item.text }}
+        </span>
       </a-menu-item>
       <!-- 包含二级级菜单 -->
       <a-sub-menu v-else :key="item.key">
@@ -59,6 +60,7 @@ export default defineComponent({
     const onOpenChange = (openKeys) => {
       openKeys.find((key) => {
         state.rootSubmenuKeys.push(key);
+         sessionStorage.setItem('key',key);
       });
       const latestOpenKey = openKeys.find(
         (key) => state.openKeys.indexOf(key) === -1
@@ -66,7 +68,7 @@ export default defineComponent({
       if (state.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
             state.openKeys = openKeys;
       } else {
-        state.openKeys = latestOpenKey ? [latestOpenKey] : [];
+         state.openKeys = latestOpenKey ? [latestOpenKey] : [];
       }
     };
 // 监听路由 
@@ -74,9 +76,21 @@ export default defineComponent({
     watch(() =>router.currentRoute.value.path,(newValue,oldValue)=> {
         state.selectedKeys = [newValue]   
     },{ immediate: true })
+    // 点击没有子集的路由
+    const onMyThis = (()=>{
+      state.openKeys = [];
+      sessionStorage.setItem('key','');
+    })
+    onMounted(()=>{
+      // 默认展开 刷新前的样子
+        if(sessionStorage.getItem('key') != null || sessionStorage.getItem('key') != undefined ){
+            state.openKeys = [sessionStorage.getItem('key')];
+        }
+    })
     return {
       data,
       onOpenChange,
+      onMyThis,
       ...toRefs(state),
     };
   },
