@@ -32,6 +32,7 @@
         </a-menu-item>
       </a-sub-menu>
     </a-menu>
+
   </div>
 </template>
 
@@ -42,50 +43,53 @@ const IconFont = createFromIconfontCN({
 });
 import { defineComponent, toRefs, reactive, onMounted,watch } from "vue";
 import { useRouter } from 'vue-router';
-
+import $store from '../../store/index'
 
 export default defineComponent({
   components: {
     IconFont,
   },
   setup() {
-// 菜单栏数据
-    let data = require("../../assets/json/men.json");
+    // 监听路由 
+    let router = useRouter();
     const state = reactive({
-      openKeys: [], //当前展开的 SubMenu 菜单项 key 数组
+      openKeys: $store.state.openKeys, //当前展开的 SubMenu 菜单项 key 数组
       selectedKeys: [], //默认选中
-      rootSubmenuKeys: [], //集合
     });
     // SubMenu 展开/关闭的回调
     const onOpenChange = (openKeys) => {
-      openKeys.find((key) => {
-        state.rootSubmenuKeys.push(key);
-         sessionStorage.setItem('key',key);
-      });
-      const latestOpenKey = openKeys.find(
-        (key) => state.openKeys.indexOf(key) === -1
-      );
-      if (state.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
-            state.openKeys = openKeys;
-      } else {
-         state.openKeys = latestOpenKey ? [latestOpenKey] : [];
-      }
+      if (openKeys.length !== 0) {
+          $store.commit('setopenKeys',openKeys[1] );
+        } else {
+            $store.commit('setopenKeys','');
+        }
     };
-// 监听路由 
-    let router = useRouter()
+// 监听路由切换
     watch(() =>router.currentRoute.value.path,(newValue,oldValue)=> {
-        state.selectedKeys = [newValue]   
+        state.selectedKeys = [newValue]
     },{ immediate: true })
+// 监听展开和合并
+    watch(() =>$store.state.openKeys,(newValue,oldValue)=> {
+       state.openKeys = newValue
+    },{ immediate: true })
+    
+// 菜单栏数据
+    let data = require("../../assets/json/men.json");
+    // 默认展开 刷新前的样子
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].children) {
+          for (let y = 0; y < data[i].children.length; y++) {
+              if (data[i].children[y].key === router.currentRoute.value.path) {
+                //  state.openKeys = [data[i].key]
+                 $store.commit('setopenKeys', data[i].key);
+              }
+          }
+      }
+    }
     // 点击没有子集的路由
     const onMyThis = (()=>{
-      state.openKeys = [];
-      sessionStorage.setItem('key','');
-    })
-    onMounted(()=>{
-      // 默认展开 刷新前的样子
-        if(sessionStorage.getItem('key') != null || sessionStorage.getItem('key') != undefined ){
-            state.openKeys = [sessionStorage.getItem('key')];
-        }
+      // state.openKeys = [''];
+        $store.commit('setopenKeys', '' );
     })
     return {
       data,

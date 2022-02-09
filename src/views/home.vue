@@ -4,16 +4,15 @@
       <a-layout-sider v-model:collapsed="collapsed" collapsible>
         <div class="logo"></div>
         <!-- 菜单组件 -->
-        <menU/>
+        <menU  />
       </a-layout-sider>
       <a-layout>
         <a-layout-header style="background: #fff;padding-top: 24px;padding-left: 20px;">
         <!-- tabs 菜单 -->
-          <tabs/>
+          <tabs  />
         </a-layout-header>
         <a-layout-content style="margin: 0 16px">
            <a-breadcrumb style="margin: 16px 0">
-             
          </a-breadcrumb>
           <div :style="{ background: '#fff', padding: '24px', minHeight: '280px' }">
             <router-view />
@@ -26,18 +25,18 @@
 <script>
 import menU from '../sonmodule/home/menu.vue'
 import tabs from '../sonmodule/home/tabs.vue'
-import { defineComponent,toRefs,reactive,watch  } from "vue";
+import { defineComponent,toRefs,reactive,} from "vue";
 export default defineComponent({
  components: {
     menU,
     tabs
   },
- setup() {
+ setup(proxy) {
      const mydata = reactive({
       collapsed:false,
     });
     return {
-      ...toRefs(mydata),
+      ...toRefs(mydata)
     };
    },
     

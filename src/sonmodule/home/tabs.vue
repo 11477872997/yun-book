@@ -5,6 +5,7 @@
       type="editable-card"
       @edit="onEdit"
       hideAdd
+      @tabClick='OnTbas'
     >
       <a-tab-pane
         v-for="pane in panes"
@@ -17,6 +18,7 @@
 </template>
 
 <script>
+import $store from '../../store/index'
 import {
   defineComponent,
   toRefs,
@@ -36,15 +38,11 @@ export default defineComponent({
           closable: false,
         },
       ], //生成的集合数据
-      activeKey: "/home", //默认选中
+      activeKey: "", //默认选中
       collapsed: false,
     });
     // 添加tabs
     const add = (name, title) => {
-        let panes = sessionStorage.getItem('panes');
-        // if(panes != null || panes != undefined){
-        //   sessionStorage.setItem("panes",JSON.stringify( states.panes));
-        //   };
           let falg = true;
           states.activeKey = name; //选中
          states.panes.filter((item)=>{
@@ -69,22 +67,10 @@ export default defineComponent({
       },
       { immediate: true }
     );
-
+    // 删除
     const remove = (targetKey) => {
-      // let lastIndex = 0;
-      // panes.value.forEach((pane, i) => {
-      //   if (pane.key === targetKey) {
-      //     lastIndex = i - 1;
-      //   }
-      // });
-      // panes.value = panes.value.filter(pane => pane.key !== targetKey);
-      // if (panes.value.length && activeKey.value === targetKey) {
-      //   if (lastIndex >= 0) {
-      //     activeKey.value = panes.value[lastIndex].key;
-      //   } else {
-      //     activeKey.value = panes.value[0].key;
-      //   }
-      // }
+      console.log(targetKey)
+      // states.panes.splice(states.panes.findIndex(item => item.key === targetKey), 1)
     };
     // 新增和删除页签的回调，在 type="editable-card" 时有效
     const onEdit = (targetKey, action) => {
@@ -94,13 +80,31 @@ export default defineComponent({
         remove(targetKey);
       }
     };
-
+    let data = require("../../assets/json/men.json");
+    // 点击当前的tbas
+    const OnTbas = ((item)=>{
+          // 默认展开左边菜单 刷新前的样子
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].children) {
+          for (let y = 0; y < data[i].children.length; y++) {
+              if (data[i].children[y].key === item) {
+                 $store.commit('setopenKeys', data[i].key);
+              }
+          }
+      }
+    }
+      router.push({
+             path: item,
+         });
+    })
     return {
       ...toRefs(states),
       onEdit,
+      OnTbas
     };
   },
 });
+
 </script>
 
 <style></style>
