@@ -69,8 +69,24 @@ export default defineComponent({
     );
     // 删除
     const remove = (targetKey) => {
-      console.log(targetKey)
-      // states.panes.splice(states.panes.findIndex(item => item.key === targetKey), 1)
+       // //如果当前tab正活跃 被删除时执行
+      if( states.activeKey === targetKey){
+        states.panes.forEach((tab,index)=>{
+          if(tab.key === targetKey){
+              let nextTab = states.panes[index + 1] || states.panes[index - 1];
+           if (nextTab) {
+            //  选中删除后下一个路由
+                states.activeKey= nextTab.key;
+                // 同步联动
+                OnTbas(nextTab.key)
+              }
+          }
+        })
+      }else{
+        // 不是当前被选中的直接暴力删除数组
+        states.panes.splice(states.panes.findIndex(item => item.key === targetKey), 1)
+      }
+      
     };
     // 新增和删除页签的回调，在 type="editable-card" 时有效
     const onEdit = (targetKey, action) => {
