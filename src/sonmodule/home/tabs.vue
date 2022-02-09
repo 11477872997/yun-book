@@ -78,7 +78,7 @@ export default defineComponent({
             //  选中删除后下一个路由
                 states.activeKey= nextTab.key;
                 // 同步联动
-                OnTbas(nextTab.key)
+                OnTbas(nextTab.key,'removes')
               }
           }
         })
@@ -98,7 +98,13 @@ export default defineComponent({
     };
     let data = require("../../assets/json/men.json");
     // 点击当前的tbas
-    const OnTbas = ((item)=>{
+    const OnTbas = ((item,name)=>{
+      // 区分删除还是切换
+      if(name != undefined){
+        if(name === 'removes'){
+          states.panes.splice(states.panes.findIndex(item => item.key === item), 1)
+        }
+      }
           // 默认展开左边菜单 刷新前的样子
     for (let i = 0; i < data.length; i++) {
       if (data[i].children) {
@@ -110,8 +116,8 @@ export default defineComponent({
       }
     }
       router.push({
-             path: item,
-         });
+         path: item,
+       });
     })
     return {
       ...toRefs(states),
