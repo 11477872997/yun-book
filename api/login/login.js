@@ -25,67 +25,73 @@ const login = async(ctx, next) => {
                     msg: '该用户尚未注册'
                 }
             } else {
-                if (md5Pass == date[0].password) {
-                    // console.log(ctx.headers['user-agent'])
-                    //生成token，验证登录有效期
-                    const token = jwt.sign({ userId: date[0].userId }, dbconfig.jwtSecret, { expiresIn: dbconfig.expireTime });
-                    //    记录登陆日志
-                    await INSERTlog(req.userName, date[0].userId, getNowTime(), ctx.ip, ctx.headers['user-agent']);
-                    // 首次登陆判断
-                    if (date[0].equipment == null || date[0].equipment == '') {
-                        await updateUser(date[0].userId, token); //更新登陆状态
-                        ctx.body = {
-                            code: 1,
-                            row: [{
-                                "token": token,
-                                "userName": req.userName,
-                                "power": date[0].power
-                            }],
-                            msg: '登陆成功',
+                for (let i = 0; i < date.length; i++) {
+                    if (req.userName == date[i].userName) {
+                        if (md5Pass !== date[i].password) {
+                            ctx.body = {
+                                code: 0,
+                                msg: '密码错误'
+                            }
+                            return false;
+
                         }
-                    } else {
-                        if (verson('Bearer ' + date[0].equipment) == false) {
-                            await updateUser(date[0].userId, token); //更新登陆状态
+                        //生成token，验证登录有效期
+                        const token = jwt.sign({ userId: date[i].userId }, dbconfig.jwtSecret, { expiresIn: dbconfig.expireTime });
+                        //    记录登陆日志
+                        await INSERTlog(req.userName, date[i].userId, getNowTime(), ctx.ip, ctx.headers['user-agent']);
+                        // 首次登陆判断
+                        if (date[i].equipment == null || date[i].equipment == '') {
+                            await updateUser(date[i].userId, token); //更新登陆状态
                             ctx.body = {
                                 code: 1,
                                 row: [{
                                     "token": token,
                                     "userName": req.userName,
-                                    "power": date[0].power
+                                    "power": date[i].power
                                 }],
                                 msg: '登陆成功',
                             }
                         } else {
-                            if (req.zt == 0) {
-                                await updateUser(date[0].userId, token); //更新登陆状态
+                            if (verson('Bearer ' + date[i].equipment) == false) {
+                                await updateUser(date[i].userId, token); //更新登陆状态
                                 ctx.body = {
                                     code: 1,
                                     row: [{
                                         "token": token,
                                         "userName": req.userName,
-                                        "power": date[0].power
+                                        "power": date[i].power
                                     }],
                                     msg: '登陆成功',
                                 }
                             } else {
-                                if (date[0].equipment != token) {
+                                if (req.zt == 0) {
+                                    await updateUser(date[i].userId, token); //更新登陆状态
                                     ctx.body = {
-                                        code: 0,
-                                        zt: 1,
-                                        msg: '登录的token与访问token不一致'
+                                        code: 1,
+                                        row: [{
+                                            "token": token,
+                                            "userName": req.userName,
+                                            "power": date[i].power
+                                        }],
+                                        msg: '登陆成功',
+                                    }
+                                } else {
+                                    if (date[0].equipment != token) {
+                                        ctx.body = {
+                                            code: 0,
+                                            zt: 1,
+                                            msg: '登录的token与访问token不一致'
+                                        }
                                     }
                                 }
+
                             }
 
                         }
-
-                    }
-                } else {
-                    ctx.body = {
-                        code: 0,
-                        msg: '密码错误'
                     }
                 }
+
+
             }
         }
         logsUtil.logResponse(ctx, req); //记录响应日志
