@@ -130,7 +130,6 @@ export default defineComponent({
       if(sessionTabs.length !=0){
        states.panes =  $store.state.panes;
       }
-    console.log( $store.state.panes)
     // 刷新保存tabs 的值
     onMounted(()=>{
         window.addEventListener('beforeunload', e => {

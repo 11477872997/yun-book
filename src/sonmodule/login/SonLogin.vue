@@ -154,7 +154,8 @@ export default defineComponent({
          if(res.data.code == 1){
              proxy.$message.success(res.data.msg);
              router.push('/home');
-              return;
+             sessionStorage.setItem('power',res.data.row[0].power);
+             return;
          }
          if(res.data.code == 0){
              if(res.data.zt == 1){
@@ -170,7 +171,8 @@ export default defineComponent({
                           api_login(newdata).then((res)=>{
                             if(res.data.code == 1){
                                 proxy.$message.success(res.data.msg);
-                               router.push('/home');
+                                router.push('/home');
+                                sessionStorage.setItem('power',res.data.row[0].power);
                                 return;
                             }
                             }).catch((err)=>{
