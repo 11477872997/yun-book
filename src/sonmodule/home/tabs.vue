@@ -24,7 +24,7 @@ import {
   toRefs,
   reactive,
   watch,
-  getCurrentInstance,
+ onMounted,
 } from "vue";
 import { useRouter } from "vue-router";
 export default defineComponent({
@@ -53,8 +53,8 @@ export default defineComponent({
         })
       if (falg) {
         states.panes.push({
-            title: title,
-            key: name,
+          key: name,
+            title: title
           });
         }
     };
@@ -67,6 +67,9 @@ export default defineComponent({
       },
       { immediate: true }
     );
+   
+  
+   
     // 删除
     const remove = (targetKey) => {
        // //如果当前tab正活跃 被删除时执行
@@ -105,11 +108,14 @@ export default defineComponent({
           states.panes.splice(states.panes.findIndex(item => item.key === item), 1)
         }
       }
+      if(item === '/home'){
+         $store.commit('setopenKeys', '');
+      }
           // 默认展开左边菜单 刷新前的样子
     for (let i = 0; i < data.length; i++) {
       if (data[i].children) {
           for (let y = 0; y < data[i].children.length; y++) {
-              if (data[i].children[y].key === item) {
+            if (data[i].children[y].key === item) {
                  $store.commit('setopenKeys', data[i].key);
               }
           }
@@ -118,6 +124,18 @@ export default defineComponent({
       router.push({
          path: item,
        });
+    })
+      // 刷新后重新渲染值
+      const sessionTabs = $store.state.panes;
+      if(sessionTabs.length !=0){
+       states.panes =  $store.state.panes;
+      }
+    console.log( $store.state.panes)
+    // 刷新保存tabs 的值
+    onMounted(()=>{
+        window.addEventListener('beforeunload', e => {
+           $store.commit('setpanes',states.panes);
+      });
     })
     return {
       ...toRefs(states),
