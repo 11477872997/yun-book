@@ -1,9 +1,9 @@
 [{
         "id": "0",
-        "key": "/home",
+        "key": "/home/box",
         "icon": "icon-twitter",
         "text": "首页",
-        "pageUrl": "/home"
+        "pageUrl": "/home/box"
     },
     {
         "id": "1",
@@ -12,16 +12,16 @@
         "text": "系统管理",
         "children": [{
                 "id": "0",
-                "key": "/userControl",
+                "key": "/home/userControl",
                 "icon": "",
-                "pageUrl": "/userControl",
+                "pageUrl": "/home/userControl",
                 "text": "用户管理"
             },
             {
                 "id": "1",
-                "key": "/roleControl",
+                "key": "/home/roleControl",
                 "icon": "",
-                "pageUrl": "/roleControl",
+                "pageUrl": "/home/roleControl",
                 "text": "角色管理"
             }
         ]
@@ -33,16 +33,16 @@
         "text": "云管理",
         "children": [{
                 "id": "0",
-                "key": "/cloud",
+                "key": "/home/cloud",
                 "icon": "",
-                "pageUrl": "/cloud",
+                "pageUrl": "/home/cloud",
                 "text": "云空间"
             },
             {
                 "id": "1",
-                "key": "/cloudNote",
+                "key": "/home/cloudNote",
                 "icon": "",
-                "pageUrl": "/cloudNote",
+                "pageUrl": "/home/cloudNote",
                 "text": "云笔记"
             }
         ]

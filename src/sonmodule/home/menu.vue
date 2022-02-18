@@ -52,6 +52,7 @@ export default defineComponent({
   setup() {
     // 监听路由 
     let router = useRouter();
+    console.log(router.options.routes)
     const state = reactive({
       openKeys: $store.state.openKeys, //当前展开的 SubMenu 菜单项 key 数组
       selectedKeys: [], //默认选中

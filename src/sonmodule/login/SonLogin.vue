@@ -153,7 +153,7 @@ export default defineComponent({
      api_login(data).then((res)=>{
          if(res.data.code == 1){
              proxy.$message.success(res.data.msg);
-             router.push('/home');
+             router.push('/home/box');
              sessionStorage.setItem('power',res.data.row[0].power);
              return;
          }
@@ -171,7 +171,7 @@ export default defineComponent({
                           api_login(newdata).then((res)=>{
                             if(res.data.code == 1){
                                 proxy.$message.success(res.data.msg);
-                                router.push('/home');
+                                router.push('/home/box');
                                 sessionStorage.setItem('power',res.data.row[0].power);
                                 return;
                             }

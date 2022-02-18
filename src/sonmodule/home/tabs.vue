@@ -33,7 +33,7 @@ export default defineComponent({
       //  初始化数据
       panes: [
         {
-          key: "/home",
+          key: "/home/box",
           title: "首页",
           closable: false,
         },
