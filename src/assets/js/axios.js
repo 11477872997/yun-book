@@ -1,28 +1,18 @@
 import axios from 'axios'   //安装axios并引入
-
 const autograph = function auths (url, query) {
   var headers = {
     'Content-Type': 'application/json;charset=UTF-8'
   }
   return { query, headers }
 }
-// console.log(process.env.NODE_ENV)'
-var url ;
-if (process.env.NODE_ENV == 'development') {//开发环境
-    url = '/api';
-} else if (process.env.NODE_ENV == 'production') {//生产环境
-  url = '';
-}
+
 // 创建axios实例
 const service = axios.create({
-//请求的地址,也可根据代码配置获取,具体网上查找开发环境的地址
-//  baseURL:'/api',
-baseURL:url,
+  // baseURL:url,
 // baseURL: process.env.VUE_APP_BASE_API, // 线上环境
 //延迟
   timeout: 50000
 })
-
 // 开启加载
 function openload(){
   var dom=document.createElement('div');

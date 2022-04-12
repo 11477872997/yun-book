@@ -29,6 +29,8 @@ import {
 import { useRouter } from "vue-router";
 export default defineComponent({
   setup() {
+     // 监听路由 
+    let router =  useRouter();
     const states = reactive({
       //  初始化数据
       panes: [
@@ -60,16 +62,12 @@ export default defineComponent({
     };
 
     //监听路由
-    let router = useRouter();
     watch( () => router.currentRoute.value.path, (newValue, oldValue) => {
         let title = router.currentRoute.value.meta.title;
          add(newValue, title);
       },
       { immediate: true }
     );
-   
-  
-   
     // 删除
     const remove = (targetKey) => {
        // //如果当前tab正活跃 被删除时执行
@@ -99,7 +97,6 @@ export default defineComponent({
         remove(targetKey);
       }
     };
-    let data = require("../../assets/json/men.json");
     // 点击当前的tbas
     const OnTbas = ((item,name)=>{
       // 区分删除还是切换
@@ -108,19 +105,20 @@ export default defineComponent({
           states.panes.splice(states.panes.findIndex(item => item.key === item), 1)
         }
       }
-      if(item === '/home'){
+      if(item === '/home/box'){
          $store.commit('setopenKeys', '');
       }
+      var data = JSON.parse(JSON.stringify($store.state.data));
           // 默认展开左边菜单 刷新前的样子
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].children) {
-          for (let y = 0; y < data[i].children.length; y++) {
-            if (data[i].children[y].key === item) {
-                 $store.commit('setopenKeys', data[i].key);
-              }
-          }
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].children) {
+            for (let y = 0; y < data[i].children.length; y++) {
+              if (data[i].children[y].meta.key === item) {
+                  $store.commit('setopenKeys', data[i].meta.key);
+                }
+            }
+        }
       }
-    }
       router.push({
          path: item,
        });
@@ -133,7 +131,7 @@ export default defineComponent({
     // 刷新保存tabs 的值
     onMounted(()=>{
         window.addEventListener('beforeunload', e => {
-           $store.commit('setpanes',states.panes);
+           $store.commit('setpanes', JSON.parse(JSON.stringify(states.panes)));
       });
     })
     return {

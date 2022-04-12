@@ -1,0 +1,92 @@
+[
+    { 
+        "path": "/system",
+        "name": "system",
+        "redirect": "/system/userControl",
+        "component":"Layout",
+        "alwaysShow":true,
+        "meta": {
+            "title": "系统管理",
+            "icon": "icon-qunzhu",
+            "key": "system",
+            "id": "1",
+            "text": "系统管理",
+            "pageUrl":""
+        },
+        "children": [
+            {
+                "path": "userControl",
+                "name": "UserControl",
+                "meta": {
+                    "title": "用户管理",
+                    "id":"0",
+                    "key":"/system/userControl",
+                    "icon": "",
+                    "pageUrl": "/system/userControl",
+                    "text": "用户管理"
+                },
+                "component":"system/userControl"
+            },
+            { 
+                "path": "roleControl",
+                "name": "RoleControl",
+                "meta": {
+                    "title": "角色管理",
+                    "id": "1",
+                    "key": "/system/roleControl",
+                    "icon": "",
+                    "pageUrl": "/system/roleControl",
+                    "text": "角色管理"
+                },
+                "component": "system/roleControl"
+            }
+
+        ]
+
+    },
+    { 
+        "path": "/management",
+        "name": "management",
+        "redirect": "/management/cloud",
+        "component": "Layout",
+        "meta": {
+            "title": "云管理",
+            "icon": "icon-xinjian",
+            "key": "management",
+            "id": "1",
+            "text": "云管理",
+            "pageUrl":""
+        },
+        "alwaysShow":true,
+        "children": [
+            { 
+            "path": "cloud",
+            "name": "Cloud",
+            "meta": {
+                "title": "云空间",
+                "id": "0",
+                "key": "/management/cloud",
+                "icon": "",
+                "pageUrl": "/management/cloud",
+                "text": "云空间"
+            },
+            "component":"management/cloud"
+        },
+        { 
+            "path": "cloudNote",
+            "name": "CloudNote",
+            "meta": {
+                "title": "云笔记",
+                "id": "1",
+                "key": "/management/cloudNote",
+                "icon": "",
+                "pageUrl": "/management/cloudNote",
+                "text": "云笔记"
+            },
+            "component": "management/cloudNote"
+        }
+
+        ]
+
+    }
+]

@@ -6,7 +6,8 @@ export default createStore({
         // 左边菜单栏选中展开
         "openKeys": [],
         // tabs 保存刷新后的值
-        "panes": []
+        "panes": [],
+        "data":[],  //保存动态路由数据
     },
     mutations: {
         //更新
@@ -15,6 +16,9 @@ export default createStore({
         },
         setpanes(state, key) {
             state.panes = key
+        },
+        setData(state, key) {
+            state.data = key
         }
     },
     actions: {},

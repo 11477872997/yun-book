@@ -7,7 +7,7 @@ import request from '../js/axios' //引入封装好的axio
  * @returns 
  */
 function api_login(data) {  
-    const url = '/login';
+    const url = '/api/login';
     return request({
         url: url,
         method: 'post',
@@ -23,15 +23,23 @@ function api_login(data) {
  * @returns 
  */
  function api_reginters(data) {  
-    const url = '/reginters';
+    const url = 'api/reginters';
     return request({
         url: url,
         method: 'post',
         data
     })
 }
-
+function api_men(data) {  
+    const url = '/json/men.json';
+    return request({
+        url: url,
+        method: 'get',
+        data
+    })
+}
 export {
     api_login,
-    api_reginters
+    api_reginters,
+    api_men
 }

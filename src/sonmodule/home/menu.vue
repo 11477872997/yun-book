@@ -1,38 +1,40 @@
 <template>
-  <div class="menu">
-    <a-menu
+  <div class="menu" >
+  <a-menu
       v-for="item in data"
-      :key="item.id"
+      :key="item.hidden"
       theme="dark"
       mode="inline"
       v-model:selectedKeys="selectedKeys"
       @openChange="onOpenChange"
       :open-keys="openKeys"
     >
+    <!-- 过滤公共路由 -->
+      <div v-if="!item.hidden">
       <!-- 只有一级菜单 -->
-      <a-menu-item v-if="item.children == undefined" :key="item.key" @click="onMyThis">
-        <icon-font :type="item.icon" />
-        <span>
-          <router-link :to="item.pageUrl"> </router-link>
-          {{ item.text }}
-        </span>
+      <a-menu-item v-if="!item.alwaysShow " :key="item.meta.key" @click="onMyThis" >
+          <icon-font :type="item.meta.icon" />
+            <span>
+              <router-link :to="item.meta.pageUrl"> </router-link>
+              {{ item.meta.text }}
+            </span>
       </a-menu-item>
-      <!-- 包含二级级菜单 -->
-      <a-sub-menu v-else :key="item.key">
-        <template #icon>
-          <icon-font :type="item.icon" />
-        </template>
-        <template #title
-          ><span>{{ item.text }}</span></template
-        >
-        <a-menu-item v-for="items in item.children" :key="items.key">
-          <router-link :to="items.pageUrl">
-            {{ items.text }}
-          </router-link>
-        </a-menu-item>
-      </a-sub-menu>
+        <!-- 包含二级级菜单 -->
+        <a-sub-menu v-else :key="item.meta.key">
+          <template #icon>
+            <icon-font :type="item.meta.icon" />
+          </template>
+          <template #title>
+            <span>{{ item.meta.text }}</span>
+          </template >
+          <a-menu-item v-for="items in item.children" :key="items.meta.key">      
+            <router-link :to="items.meta.pageUrl">
+            {{ items.meta.text }}
+            </router-link>
+          </a-menu-item>
+        </a-sub-menu>
+       </div>
     </a-menu>
-
   </div>
 </template>
 
@@ -52,7 +54,9 @@ export default defineComponent({
   setup() {
     // 监听路由 
     let router = useRouter();
-    console.log(router.options.routes)
+    let data = router.options.routes;
+    console.log(data)
+     $store.commit('setData', data);
     const state = reactive({
       openKeys: $store.state.openKeys, //当前展开的 SubMenu 菜单项 key 数组
       selectedKeys: [], //默认选中
@@ -73,23 +77,19 @@ export default defineComponent({
     watch(() =>$store.state.openKeys,(newValue,oldValue)=> {
        state.openKeys = newValue
     },{ immediate: true })
-    
-// 菜单栏数据
-    let data = require("../../assets/json/men.json");
+
     // 默认展开 刷新前的样子
     for (let i = 0; i < data.length; i++) {
       if (data[i].children) {
           for (let y = 0; y < data[i].children.length; y++) {
-              if (data[i].children[y].key === router.currentRoute.value.path) {
-                //  state.openKeys = [data[i].key]
-                 $store.commit('setopenKeys', data[i].key);
+              if (data[i].children[y].meta.key === router.currentRoute.value.path) {
+                 $store.commit('setopenKeys', data[i].meta.key);
               }
           }
       }
     }
     // 点击没有子集的路由
     const onMyThis = (()=>{
-      // state.openKeys = [''];
         $store.commit('setopenKeys', '' );
     })
     return {
