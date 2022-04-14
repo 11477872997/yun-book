@@ -1,59 +1,39 @@
 import router from './index'
-import{api_men} from '../assets/api/index'
-import { getAsyncRoutes } from './asyncRouter'
+import $store from '../store/index'
+import {getAsyncRoutes} from './asyncRouter'
+const outerPaths = ['/index/login','/index/register'];   //白名单
 
-router.beforeEach( async (to, from, next) => {
+let falg = true;
+router.beforeEach(async (to, from, next) => {
     document.title = to.meta.title;
-    // 后台动态菜单请求
-   await  api_men().then((res)=>{
-             next();
-            console.log(res)
-            var accessRoutes = getAsyncRoutes(res.data)
-            accessRoutes.forEach((value, index) => {
-                router.addRoute(value)
-              })
-                // router.addRoute(accessRoutes)
-            console.log(router)
-            console.log(router.options)
-            console.log(router.options.routes)
-        }).catch((err)=>{
-        console.log(err)
-        
-            
-        })
-    // // 获取用户token，用来判断当前用户是否登录
-    // const hasToken = getToken()
-    // if (hasToken) {
-    //     if (to.path === '/login') {
-    //         next({ path: '/' })
-    //        
-    //     } else {
-    //         //异步获取store中的路由
-    //         let route = await store.state.addRoutes;
-    //         const hasRouters = route && route.length>0;
-    //         //判断store中是否有路由，若有，进行下一步
-    //         if ( hasRouters ) {
-    //             next()
-    //         } else {
-    //             //store中没有路由，则需要获取获取异步路由，并进行格式化处理
-    //             try {
-    //                 const accessRoutes = getAsyncRoutes(await store.state.addRoutes );
-    //                 // 动态添加格式化过的路由
-    //                 router.addRoutes(accessRoutes);
-    //                 next({ ...to, replace: true })
-    //             } catch (error) {
-    //                 // Message.error('出错了')
-    //                 next(`/login?redirect=${to.path}`)
-    //                
-    //             }
-    //         }
-    //     }
-    // } else {
-    //     if (whiteList.indexOf(to.path) !== -1) {
-    //         next()
-    //     } else {
-    //         next(`/login?redirect=${to.path}`)
-    //        
-    //     }
-    // }
+    const hasToken = sessionStorage.getItem('token');
+    console.log(hasToken)
+    // 判断是否有token
+   if(hasToken){
+        if(to.path == '/login'){
+            next({ path: '/' })
+        }else{
+            console.log($store.state.data)
+            if(falg){
+                let arr = getAsyncRoutes( $store.state.data);
+                    console.log(arr)
+                    arr.forEach((val) => {
+                        router.addRoute(val)
+                    }) 
+                    next({ ...to, replace: true }) // hack方法 确保addRoutes已完成
+                falg  = false;
+            }else{
+                next();
+            }
+        }
+   }else{
+    //    放行白名单
+     if(outerPaths.includes(to.path)){
+        next();
+     }else{
+        //  全部重定向
+        next({path:"/"})
+     }
+   }
+ 
 }) 

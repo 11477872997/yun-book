@@ -32,6 +32,7 @@ function api_login(data) {
 }
 function api_men(data) {  
     const url = '/json/men.json';
+    // const url = '/json/user.json';
     return request({
         url: url,
         method: 'get',

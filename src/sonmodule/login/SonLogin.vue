@@ -77,6 +77,8 @@ import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
 import {api_login} from '../../assets/api/index'
 import { defineComponent, reactive, getCurrentInstance,createVNode ,ref} from "vue";
 import router from '../../router/index'
+import $store from '../../store/index'
+
 export default defineComponent({
     components: {
     Vcode,
@@ -139,6 +141,7 @@ export default defineComponent({
     const handleFinish = values => {
       if(!isyzm.value){
        proxy.$message.success('请验证!');
+       onShow();
        return false;
       }
       let data = {
@@ -153,9 +156,9 @@ export default defineComponent({
      api_login(data).then((res)=>{
          if(res.data.code == 1){
              proxy.$message.success(res.data.msg);
-             router.push('/home/box');
-             sessionStorage.setItem('power',res.data.row[0].power);
-             return;
+             $store.dispatch("GET_ROUTERS_DATA");
+             sessionStorage.setItem('token',res.data.row[0].token);
+            return;
          }
          if(res.data.code == 0){
              if(res.data.zt == 1){
@@ -167,15 +170,15 @@ export default defineComponent({
                         okType: 'danger',
                         cancelText: '取消',
                         onOk() {
-                        console.log('OK');
                           api_login(newdata).then((res)=>{
                             if(res.data.code == 1){
-                                proxy.$message.success(res.data.msg);
-                                router.push('/home/box');
-                                sessionStorage.setItem('power',res.data.row[0].power);
-                                return;
+                                proxy.$message.success(res.data.msg);   
+                                $store.dispatch("GET_ROUTERS_DATA");
+                                sessionStorage.setItem('token',res.data.row[0].token);
+                               return;
                             }
                             }).catch((err)=>{
+                              console.log(err)
                                 proxy.$message.error('登陆失败');
                                 isyzm.value = false;
                             })

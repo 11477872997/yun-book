@@ -43,7 +43,7 @@ import { createFromIconfontCN } from "@ant-design/icons-vue";
 const IconFont = createFromIconfontCN({
   scriptUrl: "//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js",
 });
-import { defineComponent, toRefs, reactive, onMounted,watch } from "vue";
+import { defineComponent, toRefs, reactive, onMounted,watch,computed } from "vue";
 import { useRouter } from 'vue-router';
 import $store from '../../store/index'
 
@@ -52,11 +52,15 @@ export default defineComponent({
     IconFont,
   },
   setup() {
+    // 同步更新vuex 动态路由值
+     $store.dispatch("GET_ROUTERS_DATA");
     // 监听路由 
     let router = useRouter();
-    let data = router.options.routes;
+     console.log(router.getRoutes(), '查看现有路由')
+    let data = computed(() => {
+            return JSON.parse(JSON.stringify( $store.state.data))
+        })
     console.log(data)
-     $store.commit('setData', data);
     const state = reactive({
       openKeys: $store.state.openKeys, //当前展开的 SubMenu 菜单项 key 数组
       selectedKeys: [], //默认选中
@@ -72,11 +76,11 @@ export default defineComponent({
 // 监听路由切换
     watch(() =>router.currentRoute.value.path,(newValue,oldValue)=> {
         state.selectedKeys = [newValue]
-    },{ immediate: true })
+    },{ immediate: true ,deep:true})
 // 监听展开和合并
     watch(() =>$store.state.openKeys,(newValue,oldValue)=> {
        state.openKeys = newValue
-    },{ immediate: true })
+    },{ immediate: true ,deep:true})
 
     // 默认展开 刷新前的样子
     for (let i = 0; i < data.length; i++) {

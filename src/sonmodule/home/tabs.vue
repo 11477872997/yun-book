@@ -66,7 +66,7 @@ export default defineComponent({
         let title = router.currentRoute.value.meta.title;
          add(newValue, title);
       },
-      { immediate: true }
+      { immediate: true,deep:true }
     );
     // 删除
     const remove = (targetKey) => {

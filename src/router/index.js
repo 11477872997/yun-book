@@ -1,7 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Layout from '@/views/home'
+/**
+ * hidden 菜单栏过滤不显示
+ * alwaysShow 只显示一级菜单
+ */
 
-// 公共路由
+// 静态路由
 const routes = [
     { //根目录
         path: '/',
@@ -16,14 +20,14 @@ const routes = [
         meta: {
             title: '首页',
         },
-        component: () => import('../views/index'),
+        component: () => import('@/views/index'),
         children: [{
             path: 'login',
             meta: {
                 title: '登录'
             },
             component: () =>
-                import('../views/login'),
+                import('@/views/login'),
         },
         { // 注册
             path: 'register',
@@ -32,35 +36,48 @@ const routes = [
                 title: '注册'
             },
             component: () =>
-                import('../views/register')
+                import('@/views/register')
         }
         ]
     },
-     { // 主体
-        path: '/home',
-        name: "home",
-        redirect: '/home/box',
-        component:Layout,
-        hidden:false,
+      {
+        path: '/:pathMatch(.*)*',    // 捕获所有路由或 404 Not found 路由
+        hidden:true,
         meta: {
-            title: '首页',
-            icon: "icon-twitter",
-            id: "0",
-            key: "/home/box",
-            pageUrl: "/home/box",
-            text: "首页"
+            title: '页面不存在',
+            icon: "",
+            id: "",
+            key: "",
+            pageUrl: "",
+            text: "页面不存在"
         },
-        children: [{ 
-                path: 'box',
-                name: "box",
-                meta: {
-                },
-                component: () =>
-                    import ('../views/box'),
-            },
-        ]
+        component: () => import('@/views/error/404')
+      },
+    //  { // 主体
+    //     path: '/home',
+    //     name: "home",
+    //     redirect: '/home/box',
+    //     component:Layout,
+    //     hidden:false,
+    //     meta: {
+    //         title: '首页',
+    //         icon: "icon-twitter",
+    //         id: "0",
+    //         key: "/home/box",
+    //         pageUrl: "/home/box",
+    //         text: "首页"
+    //     },
+    //     children: [{ 
+    //             path: 'box',
+    //             name: "box",
+    //             meta: {
+    //             },
+    //             component: () =>
+    //                 import ('@/views/box'),
+    //         },
+    //     ]
 
-    },
+    // },
     // { // 系统管理
     //     path: '/system',
     //     name: "system",
@@ -159,13 +176,12 @@ const routes = [
 ]
 
 
-
-
-
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes
 })
+
+
 
 
 

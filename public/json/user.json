@@ -28,52 +28,6 @@
 
     },
     { 
-        "path": "/system",
-        "name": "system",
-        "redirect": "/system/userControl",
-        "component":"Layout",
-        "alwaysShow":true,
-        "hidden":false,
-        "meta": {
-            "title": "系统管理",
-            "icon": "icon-qunzhu",
-            "key": "system",
-            "id": "1",
-            "text": "系统管理",
-            "pageUrl":""
-        },
-        "children": [
-            {
-                "path": "userControl",
-                "name": "UserControl",
-                "meta": {
-                    "title": "用户管理",
-                    "id":"0",
-                    "key":"/system/userControl",
-                    "icon": "",
-                    "pageUrl": "/system/userControl",
-                    "text": "用户管理"
-                },
-                "component":"views/system/userControl"
-            },
-            { 
-                "path": "roleControl",
-                "name": "RoleControl",
-                "meta": {
-                    "title": "角色管理",
-                    "id": "1",
-                    "key": "/system/roleControl",
-                    "icon": "",
-                    "pageUrl": "/system/roleControl",
-                    "text": "角色管理"
-                },
-                "component": "views/system/roleControl"
-            }
-
-        ]
-
-    },
-    { 
         "path": "/management",
         "name": "management",
         "redirect": "/management/cloud",
@@ -82,7 +36,7 @@
             "title": "云管理",
             "icon": "icon-xinjian",
             "key": "management",
-            "id": "1",
+            "id": "0",
             "text": "云管理",
             "pageUrl":""
         },
