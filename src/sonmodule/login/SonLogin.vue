@@ -156,7 +156,9 @@ export default defineComponent({
      api_login(data).then((res)=>{
          if(res.data.code == 1){
              proxy.$message.success(res.data.msg);
-             $store.dispatch("GET_ROUTERS_DATA");
+              $store.dispatch("GET_ROUTERS_DATA").then(()=>{
+                router.push('/home/box');
+              });
              localStorage.setItem('token',res.data.row[0].token);
             return;
          }
@@ -173,7 +175,9 @@ export default defineComponent({
                           api_login(newdata).then((res)=>{
                             if(res.data.code == 1){
                                 proxy.$message.success(res.data.msg);   
-                                $store.dispatch("GET_ROUTERS_DATA");
+                                $store.dispatch("GET_ROUTERS_DATA").then(()=>{
+                                  router.push('/home/box');
+                                });
                                 localStorage.setItem('token',res.data.row[0].token);
                                return;
                             }
