@@ -157,7 +157,7 @@ export default defineComponent({
          if(res.data.code == 1){
              proxy.$message.success(res.data.msg);
              $store.dispatch("GET_ROUTERS_DATA");
-             sessionStorage.setItem('token',res.data.row[0].token);
+             localStorage.setItem('token',res.data.row[0].token);
             return;
          }
          if(res.data.code == 0){
@@ -174,7 +174,7 @@ export default defineComponent({
                             if(res.data.code == 1){
                                 proxy.$message.success(res.data.msg);   
                                 $store.dispatch("GET_ROUTERS_DATA");
-                                sessionStorage.setItem('token',res.data.row[0].token);
+                                localStorage.setItem('token',res.data.row[0].token);
                                return;
                             }
                             }).catch((err)=>{

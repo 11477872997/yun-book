@@ -6,7 +6,7 @@ const outerPaths = ['/index/login','/index/register'];   //白名单
 let falg = true;
 router.beforeEach(async (to, from, next) => {
     document.title = to.meta.title;
-    const hasToken = sessionStorage.getItem('token');
+    const hasToken = localStorage.getItem('token');
     console.log(hasToken)
     // 判断是否有token
    if(hasToken){
