@@ -26,13 +26,11 @@ export default createStore({
     actions: {
         // 后台请求菜单
         GET_ROUTERS_DATA(ctx){
-            console.log(ctx)
             return new Promise(resolve =>{
                 api_men().then((res) => {
                     console.log(res)
                     ctx.commit('setData', res.data);
-                    resolve('11')
-                    // router.push('/home/box');
+                    resolve('起飞....')
                   }).catch((err) => {
                     console.log(err)
                 })

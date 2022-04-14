@@ -7,13 +7,11 @@ let falg = true;
 router.beforeEach(async (to, from, next) => {
     document.title = to.meta.title;
     const hasToken = localStorage.getItem('token');
-    console.log(hasToken)
     // 判断是否有token
    if(hasToken){
         if(to.path == '/login'){
             next({ path: '/' })
         }else{
-            console.log($store.state.data)
             if(falg){
                 let arr = getAsyncRoutes( $store.state.data);
                     console.log(arr)
