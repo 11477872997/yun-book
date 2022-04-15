@@ -25,6 +25,7 @@ import {
   reactive,
   watch,
  onMounted,
+ computed
 } from "vue";
 import { useRouter } from "vue-router";
 export default defineComponent({
@@ -54,8 +55,8 @@ export default defineComponent({
               }
         })
       if (falg) {
-        states.panes.push({
-          key: name,
+          states.panes.push({
+             key: name,
             title: title
           });
         }
@@ -86,6 +87,7 @@ export default defineComponent({
       }else{
         // 不是当前被选中的直接暴力删除数组
         states.panes.splice(states.panes.findIndex(item => item.key === targetKey), 1)
+         
       }
       
     };
@@ -108,32 +110,22 @@ export default defineComponent({
       if(item === '/home/box'){
          $store.commit('setopenKeys', '');
       }
-      var data = JSON.parse(JSON.stringify($store.state.data));
-          // 默认展开左边菜单 刷新前的样子
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].children) {
-            for (let y = 0; y < data[i].children.length; y++) {
-              if (data[i].children[y].meta.key === item) {
-                  $store.commit('setopenKeys', data[i].meta.key);
-                }
-            }
+      // 同步左边菜单展开
+        var data = JSON.parse(JSON.stringify($store.state.data));
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].children) {
+              for (let y = 0; y < data[i].children.length; y++) {
+                if (data[i].children[y].meta.key === item) {
+                    $store.commit('setopenKeys', data[i].meta.key);
+                  }
+              }
+          }
         }
-      }
       router.push({
          path: item,
        });
     })
-      // 刷新后重新渲染值
-      const sessionTabs = $store.state.panes;
-      if(sessionTabs.length !=0){
-       states.panes =  $store.state.panes;
-      }
-    // 刷新保存tabs 的值
-    onMounted(()=>{
-        window.addEventListener('beforeunload', e => {
-           $store.commit('setpanes', JSON.parse(JSON.stringify(states.panes)));
-      });
-    })
+    
     return {
       ...toRefs(states),
       onEdit,

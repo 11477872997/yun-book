@@ -9,12 +9,8 @@ router.beforeEach(async (to, from, next) => {
     const hasToken = localStorage.getItem('token');
     // 判断是否有token
    if(hasToken){
-        if(to.path == '/login'){
-            next({ path: '/' })
-        }else{
             if(falg){
                 let arr = getAsyncRoutes( $store.state.data);
-                    console.log(arr)
                     arr.forEach((val) => {
                         router.addRoute(val)
                     }) 
@@ -23,7 +19,6 @@ router.beforeEach(async (to, from, next) => {
             }else{
                 next();
             }
-        }
    }else{
     //    放行白名单
      if(outerPaths.includes(to.path)){

@@ -57,15 +57,27 @@ export default defineComponent({
     // 监听路由 
     let router = useRouter();
      console.log(router.getRoutes(), '查看现有路由')
-    let data = computed(() => {
-            return JSON.parse(JSON.stringify( $store.state.data))
-        })
-    console.log(data)
+     let data 
+       watch(() => $store.state.data,(newValue,oldValue)=> {
+         data = newValue
+     },{ immediate: true ,deep:true})
+
+    console.log(data);
     const state = reactive({
       openKeys: $store.state.openKeys, //当前展开的 SubMenu 菜单项 key 数组
       selectedKeys: [], //默认选中
     });
-    // SubMenu 展开/关闭的回调
+ 
+// 监听当前访问的路由选中状态
+    watch(() =>router.currentRoute.value.path,(newValue,oldValue)=> {
+        state.selectedKeys = [newValue]
+    },{ immediate: true ,deep:true})
+// 监听当选鼠标点击的路由是否展开或合并
+    watch(() =>$store.state.openKeys,(newValue,oldValue)=> {
+       state.openKeys = newValue
+    },{ immediate: true ,deep:true})
+
+   // SubMenu 展开/关闭的回调
     const onOpenChange = (openKeys) => {
       if (openKeys.length !== 0) {
           $store.commit('setopenKeys',openKeys[1] );
@@ -73,16 +85,11 @@ export default defineComponent({
             $store.commit('setopenKeys','');
         }
     };
-// 监听路由切换
-    watch(() =>router.currentRoute.value.path,(newValue,oldValue)=> {
-        state.selectedKeys = [newValue]
-    },{ immediate: true ,deep:true})
-// 监听展开和合并
-    watch(() =>$store.state.openKeys,(newValue,oldValue)=> {
-       state.openKeys = newValue
-    },{ immediate: true ,deep:true})
-
-    // 默认展开 刷新前的样子
+    // 点击没有子集的路由
+    const onMyThis = (()=>{
+        $store.commit('setopenKeys', '' );
+    })
+    // 同步直接访问路由默认展开
     for (let i = 0; i < data.length; i++) {
       if (data[i].children) {
           for (let y = 0; y < data[i].children.length; y++) {
@@ -92,10 +99,7 @@ export default defineComponent({
           }
       }
     }
-    // 点击没有子集的路由
-    const onMyThis = (()=>{
-        $store.commit('setopenKeys', '' );
-    })
+
     return {
       data,
       onOpenChange,
