@@ -52,6 +52,7 @@ export default defineComponent({
     IconFont,
   },
   setup() {
+    let list;
     // 同步更新vuex 动态路由值
      $store.dispatch("GET_ROUTERS_DATA");
     // 监听路由 
@@ -68,8 +69,15 @@ export default defineComponent({
       selectedKeys: [], //默认选中
     });
  
-// 监听当前访问的路由选中状态
     watch(() =>router.currentRoute.value.path,(newValue,oldValue)=> {
+      if(router.currentRoute.value.meta.fatitle != null){
+         let list = [
+            router.currentRoute.value.meta.fatitle,
+            router.currentRoute.value.meta.text,
+          ]
+          $store.commit('setlist', list); 
+      }
+     
         state.selectedKeys = [newValue]
     },{ immediate: true ,deep:true})
 // 监听当选鼠标点击的路由是否展开或合并
@@ -88,6 +96,7 @@ export default defineComponent({
     // 点击没有子集的路由
     const onMyThis = (()=>{
         $store.commit('setopenKeys', '' );
+         $store.commit('setlist', []);
     })
     // 同步直接访问路由默认展开
     for (let i = 0; i < data.length; i++) {
@@ -95,6 +104,11 @@ export default defineComponent({
           for (let y = 0; y < data[i].children.length; y++) {
               if (data[i].children[y].meta.key === router.currentRoute.value.path) {
                  $store.commit('setopenKeys', data[i].meta.key);
+                 let list = [
+                      data[i].children[y].meta.fatitle,
+                      data[i].children[y].meta.text,
+                    ]
+                    $store.commit('setlist', list);
               }
           }
       }

@@ -7,7 +7,8 @@
         <menU  />
       </a-layout-sider>
       <a-layout>
-        <a-layout-header style="background: #fff;padding-top: 24px;padding-left: 20px;">
+        <a-layout-header style="background: #fff;padding-top:10px;padding-left: 20px;height:80px;">
+           <breadcrumb/>
         <!-- tabs 菜单 -->
           <tabs  />
         </a-layout-header>
@@ -24,12 +25,14 @@
 </template>
 <script>
 import menU from '../sonmodule/home/menu.vue'
+import breadcrumb from '../sonmodule/home/breadcrumb.vue'
 import tabs from '../sonmodule/home/tabs.vue'
 import { defineComponent,toRefs,reactive,} from "vue";
 export default defineComponent({
  components: {
     menU,
-    tabs
+    tabs,
+    breadcrumb
   },
  setup(proxy) {
      const mydata = reactive({

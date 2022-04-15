@@ -48,6 +48,7 @@
                 "name": "UserControl",
                 "meta": {
                     "title": "用户管理",
+                    "fatitle": "系统管理",
                     "id":"0",
                     "key":"/system/userControl",
                     "icon": "",
@@ -61,6 +62,7 @@
                 "name": "RoleControl",
                 "meta": {
                     "title": "角色管理",
+                    "fatitle": "系统管理",
                     "id": "1",
                     "key": "/system/roleControl",
                     "icon": "",
@@ -96,6 +98,7 @@
                 "title": "云空间",
                 "id": "0",
                 "key": "/management/cloud",
+                "fatitle": "云管理",
                 "icon": "",
                 "pageUrl": "/management/cloud",
                 "text": "云空间"
@@ -110,6 +113,7 @@
                 "id": "1",
                 "key": "/management/cloudNote",
                 "icon": "",
+                "fatitle": "云管理",
                 "pageUrl": "/management/cloudNote",
                 "text": "云笔记"
             },

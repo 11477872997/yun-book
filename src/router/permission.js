@@ -15,7 +15,8 @@ router.beforeEach(async (to, from, next) => {
                         router.addRoute(val)
                     }) 
                     next({ ...to, replace: true }) // hack方法 确保addRoutes已完成
-                falg  = false;
+                   
+                  falg  = false;
             }else{
                 next();
             }

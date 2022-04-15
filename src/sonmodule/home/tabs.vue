@@ -109,6 +109,7 @@ export default defineComponent({
       }
       if(item === '/home/box'){
          $store.commit('setopenKeys', '');
+         $store.commit('setlist', []);
       }
       // 同步左边菜单展开
         var data = JSON.parse(JSON.stringify($store.state.data));
@@ -117,6 +118,11 @@ export default defineComponent({
               for (let y = 0; y < data[i].children.length; y++) {
                 if (data[i].children[y].meta.key === item) {
                     $store.commit('setopenKeys', data[i].meta.key);
+                    let list = [
+                      data[i].children[y].meta.fatitle,
+                      data[i].children[y].meta.text,
+                    ]
+                     $store.commit('setlist', list);
                   }
               }
           }
@@ -136,4 +142,5 @@ export default defineComponent({
 
 </script>
 
-<style></style>
+<style>
+</style>
