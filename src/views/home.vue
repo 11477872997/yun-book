@@ -8,14 +8,42 @@
       </a-layout-sider>
       <a-layout>
         <a-layout-header style="background: #fff;padding-top:10px;padding-left: 20px;height:80px;">
-           <breadcrumb/>
-        <!-- tabs 菜单 -->
+      
+          <a-row type="flex" style="height:30px">
+          <a-col flex="auto"><breadcrumb/></a-col>
+          <a-col flex="80px"><a-avatar src="https://joeschmoe.io/api/v1/random" />
+          
+         <a-dropdown-button>
+      Dropdown
+      <template #overlay>
+        <a-menu @click="handleMenuClick">
+          <a-menu-item key="1">
+            <UserOutlined />
+            1st menu item
+          </a-menu-item>
+          <a-menu-item key="2">
+            <UserOutlined />
+            2nd menu item
+          </a-menu-item>
+          <a-menu-item key="3">
+            <UserOutlined />
+            3rd item
+          </a-menu-item>
+        </a-menu>
+      </template>
+      <template #icon><UserOutlined /></template>
+    </a-dropdown-button>
+      </a-col>
+        </a-row>
+         
+          <!-- tabs 菜单 -->
           <tabs  />
         </a-layout-header>
         <a-layout-content style="margin: 0 16px">
            <a-breadcrumb style="margin: 16px 0">
          </a-breadcrumb>
           <div :style="{ background: '#fff', padding: '24px', minHeight: '280px' }">
+            
             <router-view />
           </div>
         </a-layout-content>

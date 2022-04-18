@@ -63,7 +63,6 @@ export default defineComponent({
          data = newValue
      },{ immediate: true ,deep:true})
 
-    console.log(data);
     const state = reactive({
       openKeys: $store.state.openKeys, //当前展开的 SubMenu 菜单项 key 数组
       selectedKeys: [], //默认选中

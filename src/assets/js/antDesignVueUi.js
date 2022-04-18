@@ -1,11 +1,11 @@
-import { Button,Row,Col,Input,checkbox,Form,message,Modal,Spin,Layout,Menu,Breadcrumb,Tabs} from 'ant-design-vue';
+import { Button,Row,Col,Input,checkbox,Form,message,Modal,Spin,Layout,Menu,Breadcrumb,Tabs,avatar} from 'ant-design-vue';
 
 //  存储组件列表 
 const components = [
-    Button,Row,Col,checkbox,Spin
+    Button,Row,Col,checkbox,Spin,avatar
 ];
 const use = [
-    Input,Form,Layout,Menu,Breadcrumb,Tabs
+    Input,Form,Layout,Menu,Breadcrumb,Tabs,
 ];
 
 // 定义 install 方法，接收 Vue 作为参数。如果使用 use 注册插件，则所有的组件都将被注册

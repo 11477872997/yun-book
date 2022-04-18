@@ -22,7 +22,7 @@ export default createStore({
         },
         setlist(state, key) {
             state.list = key
-        }
+        },
     },
     actions: {
         // 后台请求菜单

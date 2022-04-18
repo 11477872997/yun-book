@@ -159,7 +159,8 @@ export default defineComponent({
               $store.dispatch("GET_ROUTERS_DATA").then(()=>{
                 router.push('/home/box');
               });
-             localStorage.setItem('token',res.data.row[0].token);
+             localStorage.setItem('token',res.data.token);
+             localStorage.setItem('row',JSON.stringify(res.data.row));
             return;
          }
          if(res.data.code == 0){
@@ -178,7 +179,8 @@ export default defineComponent({
                                 $store.dispatch("GET_ROUTERS_DATA").then(()=>{
                                   router.push('/home/box');
                                 });
-                                localStorage.setItem('token',res.data.row[0].token);
+                                localStorage.setItem('token',res.data.token);
+                                localStorage.setItem('row',JSON.stringify(res.data.row));
                                return;
                             }
                             }).catch((err)=>{
