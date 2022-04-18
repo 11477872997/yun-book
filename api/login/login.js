@@ -1,6 +1,6 @@
 // const {registerUser,insertUser}=require('../../sql/login/register');
 const logsUtil = require('../../config/logs');
-const { loginUser, INSERTlog, updateUser } = require('../../sql/login/login')
+const { loginUser, INSERTlog, updateUser,slectUser} = require('../../sql/login/login')
 const md5 = require('../../util/md5');
 //引入jwt做token验证
 const jwt = require('jsonwebtoken');
@@ -39,15 +39,17 @@ const login = async(ctx, next) => {
                         const token = jwt.sign({ userId: date[i].userId }, dbconfig.jwtSecret, { expiresIn: dbconfig.expireTime });
                         //    记录登陆日志
                         await INSERTlog(req.userName, date[i].userId, getNowTime(), ctx.ip, ctx.headers['user-agent']);
+                        let mydata = await slectUser(date[i].userId);
+                        console.log(mydata)
                         // 首次登陆判断
                         if (date[i].equipment == null || date[i].equipment == '') {
                             await updateUser(date[i].userId, token); //更新登陆状态
                             ctx.body = {
                                 code: 1,
+                                "token": token,
                                 row: [{
-                                    "token": token,
-                                    "userName": req.userName,
-                                    "power": date[i].power
+                                    "userName": mydata[0].userName,
+                                    "power": mydata[0].powermc
                                 }],
                                 msg: '登陆成功',
                             }
@@ -56,10 +58,10 @@ const login = async(ctx, next) => {
                                 await updateUser(date[i].userId, token); //更新登陆状态
                                 ctx.body = {
                                     code: 1,
+                                    "token": token,
                                     row: [{
-                                        "token": token,
                                         "userName": req.userName,
-                                        "power": date[i].power
+                                        "power": mydata[0].powermc
                                     }],
                                     msg: '登陆成功',
                                 }
@@ -68,10 +70,10 @@ const login = async(ctx, next) => {
                                     await updateUser(date[i].userId, token); //更新登陆状态
                                     ctx.body = {
                                         code: 1,
+                                        "token": token,
                                         row: [{
-                                            "token": token,
                                             "userName": req.userName,
-                                            "power": date[i].power
+                                            "power": mydata[0].powermc
                                         }],
                                         msg: '登陆成功',
                                     }

@@ -17,4 +17,9 @@ let updateUser = function(userId,equipment){
     return query( _sql,__filename)
 }
 
-module.exports = {loginUser,INSERTlog,updateUser,userid}
+let slectUser = function(userId){
+    let _sql = `select * from v_user where userId = '${userId}'`
+    return query( _sql,__filename)
+}
+
+module.exports = {loginUser,INSERTlog,updateUser,userid,slectUser}
