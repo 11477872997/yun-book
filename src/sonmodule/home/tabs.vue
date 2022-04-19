@@ -120,7 +120,7 @@ export default defineComponent({
                     $store.commit('setopenKeys', data[i].meta.key);
                     let list = [
                       data[i].children[y].meta.fatitle,
-                      data[i].children[y].meta.text,
+                      data[i].children[y].meta.title,
                     ]
                      $store.commit('setlist', list);
                   }

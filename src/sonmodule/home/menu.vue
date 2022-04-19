@@ -16,7 +16,7 @@
           <icon-font :type="item.meta.icon" />
             <span>
               <router-link :to="item.meta.pageUrl"> </router-link>
-              {{ item.meta.text }}
+              {{ item.meta.title }}
             </span>
       </a-menu-item>
         <!-- 包含二级级菜单 -->
@@ -25,11 +25,11 @@
             <icon-font :type="item.meta.icon" />
           </template>
           <template #title>
-            <span>{{ item.meta.text }}</span>
+            <span>{{ item.meta.title }}</span>
           </template >
           <a-menu-item v-for="items in item.children" :key="items.meta.key">      
             <router-link :to="items.meta.pageUrl">
-            {{ items.meta.text }}
+            {{ items.meta.title }}
             </router-link>
           </a-menu-item>
         </a-sub-menu>
@@ -72,7 +72,7 @@ export default defineComponent({
       if(router.currentRoute.value.meta.fatitle != null){
          let list = [
             router.currentRoute.value.meta.fatitle,
-            router.currentRoute.value.meta.text,
+            router.currentRoute.value.meta.title,
           ]
           $store.commit('setlist', list); 
       }
@@ -105,7 +105,7 @@ export default defineComponent({
                  $store.commit('setopenKeys', data[i].meta.key);
                  let list = [
                       data[i].children[y].meta.fatitle,
-                      data[i].children[y].meta.text,
+                      data[i].children[y].meta.title,
                     ]
                     $store.commit('setlist', list);
               }

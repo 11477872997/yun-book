@@ -11,7 +11,6 @@
             "icon": "icon-twitter",
             "key": "/home/box",
             "id": "0",
-            "text": "首页",
             "pageUrl":"/home/box"
         },
         "children": [
@@ -39,7 +38,6 @@
             "icon": "icon-qunzhu",
             "key": "system",
             "id": "1",
-            "text": "系统管理",
             "pageUrl":""
         },
         "children": [
@@ -52,8 +50,7 @@
                     "id":"0",
                     "key":"/system/userControl",
                     "icon": "",
-                    "pageUrl": "/system/userControl",
-                    "text": "用户管理"
+                    "pageUrl": "/system/userControl"
                 },
                 "component":"views/system/userControl"
             },
@@ -66,8 +63,7 @@
                     "id": "1",
                     "key": "/system/roleControl",
                     "icon": "",
-                    "pageUrl": "/system/roleControl",
-                    "text": "角色管理"
+                    "pageUrl": "/system/roleControl"
                 },
                 "component": "views/system/roleControl"
             }
@@ -85,7 +81,6 @@
             "icon": "icon-xinjian",
             "key": "management",
             "id": "1",
-            "text": "云管理",
             "pageUrl":""
         },
         "alwaysShow":true,
@@ -100,8 +95,7 @@
                 "key": "/management/cloud",
                 "fatitle": "云管理",
                 "icon": "",
-                "pageUrl": "/management/cloud",
-                "text": "云空间"
+                "pageUrl": "/management/cloud"
             },
             "component":"views/management/cloud"
         },
@@ -114,8 +108,7 @@
                 "key": "/management/cloudNote",
                 "icon": "",
                 "fatitle": "云管理",
-                "pageUrl": "/management/cloudNote",
-                "text": "云笔记"
+                "pageUrl": "/management/cloudNote"
             },
             "component": "views/management/cloudNote"
         }
