@@ -36,7 +36,6 @@
         "meta": {
             "title": "系统管理",
             "icon": "icon-qunzhu",
-            "key": "system",
             "id": "1",
             "pageUrl":""
         },
@@ -61,7 +60,6 @@
                     "title": "角色管理",
                     "fatitle": "系统管理",
                     "id": "1",
-                    "key": "/system/roleControl",
                     "icon": "",
                     "pageUrl": "/system/roleControl"
                 },
@@ -79,7 +77,6 @@
         "meta": {
             "title": "云管理",
             "icon": "icon-xinjian",
-            "key": "management",
             "id": "1",
             "pageUrl":""
         },
@@ -92,7 +89,6 @@
             "meta": {
                 "title": "云空间",
                 "id": "0",
-                "key": "/management/cloud",
                 "fatitle": "云管理",
                 "icon": "",
                 "pageUrl": "/management/cloud"
@@ -105,7 +101,6 @@
             "meta": {
                 "title": "云笔记",
                 "id": "1",
-                "key": "/management/cloudNote",
                 "icon": "",
                 "fatitle": "云管理",
                 "pageUrl": "/management/cloudNote"

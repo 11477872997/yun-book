@@ -11,7 +11,6 @@
             "icon": "icon-twitter",
             "key": "/home/box",
             "id": "0",
-            "text": "首页",
             "pageUrl":"/home/box"
         },
         "children": [
@@ -28,49 +27,47 @@
 
     },
     { 
-        "path": "/management",
-        "name": "management",
-        "redirect": "/management/cloud",
-        "component": "Layout",
-        "meta": {
-            "title": "云管理",
-            "icon": "icon-xinjian",
-            "key": "management",
-            "id": "0",
-            "text": "云管理",
-            "pageUrl":""
-        },
+        "path": "/system",
+        "name": "system",
+        "redirect": "/system/userControl",
+        "component":"Layout",
         "alwaysShow":true,
         "hidden":false,
-        "children": [
-            { 
-            "path": "cloud",
-            "name": "Cloud",
-            "meta": {
-                "title": "云空间",
-                "id": "0",
-                "key": "/management/cloud",
-                "icon": "",
-                "pageUrl": "/management/cloud",
-                "text": "云空间"
-            },
-            "component":"views/management/cloud"
+        "meta": {
+            "title": "系统管理",
+            "icon": "icon-qunzhu",
+            "id": "1",
+            "pageUrl":""
         },
-        { 
-            "path": "cloudNote",
-            "name": "CloudNote",
-            "meta": {
-                "title": "云笔记",
-                "id": "1",
-                "key": "/management/cloudNote",
-                "icon": "",
-                "pageUrl": "/management/cloudNote",
-                "text": "云笔记"
+        "children": [
+            {
+                "path": "userControl",
+                "name": "UserControl",
+                "meta": {
+                    "title": "用户管理",
+                    "fatitle": "系统管理",
+                    "id":"0",
+                    "key":"/system/userControl",
+                    "icon": "",
+                    "pageUrl": "/system/userControl"
+                },
+                "component":"views/system/userControl"
             },
-            "component": "views/management/cloudNote"
-        }
+            { 
+                "path": "roleControl",
+                "name": "RoleControl",
+                "meta": {
+                    "title": "角色管理",
+                    "fatitle": "系统管理",
+                    "id": "1",
+                    "icon": "",
+                    "pageUrl": "/system/roleControl"
+                },
+                "component": "views/system/roleControl"
+            }
 
         ]
 
     }
+ 
 ]

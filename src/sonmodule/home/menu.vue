@@ -12,7 +12,7 @@
     <!-- 过滤公共路由 -->
       <div v-if="!item.hidden">
       <!-- 只有一级菜单 -->
-      <a-menu-item v-if="!item.alwaysShow " :key="item.meta.key" @click="onMyThis" >
+      <a-menu-item v-if="!item.alwaysShow " :key="item.name" @click="onMyThis" >
           <icon-font :type="item.meta.icon" />
             <span>
               <router-link :to="item.meta.pageUrl"> </router-link>
@@ -20,14 +20,14 @@
             </span>
       </a-menu-item>
         <!-- 包含二级级菜单 -->
-        <a-sub-menu v-else :key="item.meta.key">
+        <a-sub-menu v-else :key="item.name">
           <template #icon>
             <icon-font :type="item.meta.icon" />
           </template>
           <template #title>
             <span>{{ item.meta.title }}</span>
           </template >
-          <a-menu-item v-for="items in item.children" :key="items.meta.key">      
+          <a-menu-item v-for="items in item.children" :key="items.meta.pageUrl">      
             <router-link :to="items.meta.pageUrl">
             {{ items.meta.title }}
             </router-link>
@@ -101,8 +101,8 @@ export default defineComponent({
     for (let i = 0; i < data.length; i++) {
       if (data[i].children) {
           for (let y = 0; y < data[i].children.length; y++) {
-              if (data[i].children[y].meta.key === router.currentRoute.value.path) {
-                 $store.commit('setopenKeys', data[i].meta.key);
+              if (data[i].children[y].meta.pageUrl === router.currentRoute.value.path) {
+                $store.commit('setopenKeys', data[i].name);
                  let list = [
                       data[i].children[y].meta.fatitle,
                       data[i].children[y].meta.title,

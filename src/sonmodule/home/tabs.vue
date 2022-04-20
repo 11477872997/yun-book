@@ -116,8 +116,8 @@ export default defineComponent({
         for (let i = 0; i < data.length; i++) {
           if (data[i].children) {
               for (let y = 0; y < data[i].children.length; y++) {
-                if (data[i].children[y].meta.key === item) {
-                    $store.commit('setopenKeys', data[i].meta.key);
+                if (data[i].children[y].meta.pageUrl === item) {
+                    $store.commit('setopenKeys', data[i].name);
                     let list = [
                       data[i].children[y].meta.fatitle,
                       data[i].children[y].meta.title,
