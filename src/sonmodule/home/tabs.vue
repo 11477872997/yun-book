@@ -107,23 +107,27 @@ export default defineComponent({
           states.panes.splice(states.panes.findIndex(item => item.key === item), 1)
         }
       }
-      if(item === '/home/box'){
-         $store.commit('setopenKeys', '');
-         $store.commit('setlist', []);
-      }
       // 同步左边菜单展开
         var data = JSON.parse(JSON.stringify($store.state.data));
         for (let i = 0; i < data.length; i++) {
           if (data[i].children) {
               for (let y = 0; y < data[i].children.length; y++) {
-                if (data[i].children[y].meta.pageUrl === item) {
-                    $store.commit('setopenKeys', data[i].name);
+                let pageUrl = data[i].children[y].meta.pageUrl;
+               if (data[i].alwaysShow) {
+                  if (pageUrl === item) {
+                    $store.commit("setopenKeys", data[i].name);
                     let list = [
                       data[i].children[y].meta.fatitle,
                       data[i].children[y].meta.title,
-                    ]
-                     $store.commit('setlist', list);
+                    ];
+                    $store.commit("setlist", list);
                   }
+                }else{
+                  $store.commit("setopenKeys", "");
+                  $store.commit("setlist", []);
+        
+                }
+              
               }
           }
         }

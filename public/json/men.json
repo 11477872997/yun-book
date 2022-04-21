@@ -2,15 +2,13 @@
     { 
         "path": "/home",
         "name": "home",
-        "redirect": "/home/boxl",
+        "redirect": "/home/box",
         "component":"Layout",
         "alwaysShow":false,
         "hidden":false,
         "meta": {
             "title": "首页",
             "icon": "icon-twitter",
-            "key": "/home/box",
-            "id": "0",
             "pageUrl":"/home/box"
         },
         "children": [
@@ -36,7 +34,6 @@
         "meta": {
             "title": "系统管理",
             "icon": "icon-qunzhu",
-            "id": "1",
             "pageUrl":""
         },
         "children": [
@@ -46,8 +43,6 @@
                 "meta": {
                     "title": "用户管理",
                     "fatitle": "系统管理",
-                    "id":"0",
-                    "key":"/system/userControl",
                     "icon": "",
                     "pageUrl": "/system/userControl"
                 },
@@ -59,7 +54,6 @@
                 "meta": {
                     "title": "角色管理",
                     "fatitle": "系统管理",
-                    "id": "1",
                     "icon": "",
                     "pageUrl": "/system/roleControl"
                 },
@@ -77,7 +71,6 @@
         "meta": {
             "title": "云管理",
             "icon": "icon-xinjian",
-            "id": "1",
             "pageUrl":""
         },
         "alwaysShow":true,
@@ -88,7 +81,6 @@
             "name": "Cloud",
             "meta": {
                 "title": "云空间",
-                "id": "0",
                 "fatitle": "云管理",
                 "icon": "",
                 "pageUrl": "/management/cloud"
@@ -100,7 +92,6 @@
             "name": "CloudNote",
             "meta": {
                 "title": "云笔记",
-                "id": "1",
                 "icon": "",
                 "fatitle": "云管理",
                 "pageUrl": "/management/cloudNote"

@@ -1,6 +1,6 @@
 <template>
-  <div class="menu" >
-  <a-menu
+  <div class="menu">
+    <a-menu
       v-for="item in data"
       :key="item.hidden"
       theme="dark"
@@ -9,16 +9,20 @@
       @openChange="onOpenChange"
       :open-keys="openKeys"
     >
-    <!-- 过滤公共路由 -->
+      <!-- 过滤公共路由 -->
       <div v-if="!item.hidden">
-      <!-- 只有一级菜单 -->
-      <a-menu-item v-if="!item.alwaysShow " :key="item.name" @click="onMyThis" >
+        <!-- 只有一级菜单 -->
+        <a-menu-item
+          v-if="!item.alwaysShow"
+          :key="item.meta.pageUrl"
+          @click="onMyThis"
+        >
           <icon-font :type="item.meta.icon" />
-            <span>
-              <router-link :to="item.meta.pageUrl"> </router-link>
-              {{ item.meta.title }}
-            </span>
-      </a-menu-item>
+          <span>
+            <router-link :to="item.meta.pageUrl"> </router-link>
+            {{ item.meta.title }}
+          </span>
+        </a-menu-item>
         <!-- 包含二级级菜单 -->
         <a-sub-menu v-else :key="item.name">
           <template #icon>
@@ -26,14 +30,14 @@
           </template>
           <template #title>
             <span>{{ item.meta.title }}</span>
-          </template >
-          <a-menu-item v-for="items in item.children" :key="items.meta.pageUrl">      
+          </template>
+          <a-menu-item v-for="items in item.children" :key="items.meta.pageUrl">
             <router-link :to="items.meta.pageUrl">
-            {{ items.meta.title }}
+              {{ items.meta.title }}
             </router-link>
           </a-menu-item>
         </a-sub-menu>
-       </div>
+      </div>
     </a-menu>
   </div>
 </template>
@@ -43,9 +47,16 @@ import { createFromIconfontCN } from "@ant-design/icons-vue";
 const IconFont = createFromIconfontCN({
   scriptUrl: "//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js",
 });
-import { defineComponent, toRefs, reactive, onMounted,watch,computed } from "vue";
-import { useRouter } from 'vue-router';
-import $store from '../../store/index'
+import {
+  defineComponent,
+  toRefs,
+  reactive,
+  onMounted,
+  watch,
+  computed,
+} from "vue";
+import { useRouter } from "vue-router";
+import $store from "../../store/index";
 
 export default defineComponent({
   components: {
@@ -54,62 +65,80 @@ export default defineComponent({
   setup() {
     let list;
     // 同步更新vuex 动态路由值
-     $store.dispatch("GET_ROUTERS_DATA");
-    // 监听路由 
+    $store.dispatch("GET_ROUTERS_DATA");
+    // 监听路由
     let router = useRouter();
-     console.log(router.getRoutes(), '查看现有路由')
-     let data 
-       watch(() => $store.state.data,(newValue,oldValue)=> {
-         data = newValue
-     },{ immediate: true ,deep:true})
+    console.log(router.getRoutes(), "查看现有路由");
+    let data;
+    watch(
+      () => $store.state.data,
+      (newValue, oldValue) => {
+        data = newValue;
+      },
+      { immediate: true, deep: true }
+    );
 
     const state = reactive({
       openKeys: $store.state.openKeys, //当前展开的 SubMenu 菜单项 key 数组
       selectedKeys: [], //默认选中
     });
- 
-    watch(() =>router.currentRoute.value.path,(newValue,oldValue)=> {
-      if(router.currentRoute.value.meta.fatitle != null){
-         let list = [
+    watch(
+      () => router.currentRoute.value.path,
+      (newValue, oldValue) => {
+        state.selectedKeys = [newValue];
+        if (router.currentRoute.value.meta.fatitle != null) {
+          let list = [
             router.currentRoute.value.meta.fatitle,
             router.currentRoute.value.meta.title,
-          ]
-          $store.commit('setlist', list); 
-      }
-     
-        state.selectedKeys = [newValue]
-    },{ immediate: true ,deep:true})
-// 监听当选鼠标点击的路由是否展开或合并
-    watch(() =>$store.state.openKeys,(newValue,oldValue)=> {
-       state.openKeys = newValue
-    },{ immediate: true ,deep:true})
+          ];
+          $store.commit("setlist", list);
+        }
+      },
+      { immediate: true, deep: true }
+    );
+    // 监听当选鼠标点击的路由是否展开或合并
+    watch(
+      () => $store.state.openKeys,
+      (newValue, oldValue) => {
+        state.openKeys = newValue;
+      },
+      { immediate: true, deep: true }
+    );
 
-   // SubMenu 展开/关闭的回调
+    // SubMenu 展开/关闭的回调
     const onOpenChange = (openKeys) => {
       if (openKeys.length !== 0) {
-          $store.commit('setopenKeys',openKeys[1] );
-        } else {
-            $store.commit('setopenKeys','');
-        }
+        $store.commit("setopenKeys", openKeys[1]);
+      } else {
+        $store.commit("setopenKeys", "");
+      }
     };
     // 点击没有子集的路由
-    const onMyThis = (()=>{
-        $store.commit('setopenKeys', '' );
-         $store.commit('setlist', []);
-    })
+    const onMyThis = () => {
+      $store.commit("setopenKeys", "");
+      $store.commit("setlist", []);
+    };
     // 同步直接访问路由默认展开
     for (let i = 0; i < data.length; i++) {
       if (data[i].children) {
-          for (let y = 0; y < data[i].children.length; y++) {
-              if (data[i].children[y].meta.pageUrl === router.currentRoute.value.path) {
-                $store.commit('setopenKeys', data[i].name);
-                 let list = [
-                      data[i].children[y].meta.fatitle,
-                      data[i].children[y].meta.title,
-                    ]
-                    $store.commit('setlist', list);
-              }
+        for (let y = 0; y < data[i].children.length; y++) {
+          let pageUrl = data[i].children[y].meta.pageUrl;
+          let path = router.currentRoute.value.path;
+          if (data[i].alwaysShow) {
+            if (pageUrl === path) {
+              $store.commit("setopenKeys", data[i].name);
+              let list = [
+                data[i].children[y].meta.fatitle,
+                data[i].children[y].meta.title,
+              ];
+              $store.commit("setlist", list);
+            }
+          }else{
+             $store.commit("setopenKeys", "");
+             $store.commit("setlist", []);
+  
           }
+        }
       }
     }
 
